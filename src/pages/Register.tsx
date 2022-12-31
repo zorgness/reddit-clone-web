@@ -1,19 +1,12 @@
 import React from "react";
 import { Formik, Form } from "formik";
 import { Wrapper } from "../components/Wrapper";
-import {
-  Box,
-  Button,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Input,
-} from "@chakra-ui/react";
+import { Box, Button, FormControl } from "@chakra-ui/react";
 import { InputField } from "../components/InputField";
 
 interface RegisterProps {}
 
-const Register: React.FC<RegisterProps> = ({}) => {
+const Register: React.FC<RegisterProps> = ({ ...props }) => {
   return (
     <Wrapper variant={"small"}>
       <Box textAlign={["center"]}>
@@ -25,7 +18,7 @@ const Register: React.FC<RegisterProps> = ({}) => {
           console.log(values);
         }}
       >
-        {({ values, handleChange }) => (
+        {({ isSubmitting }) => (
           <Form>
             <FormControl>
               <Box mt={4}>
@@ -45,14 +38,13 @@ const Register: React.FC<RegisterProps> = ({}) => {
                 />
               </Box>
 
-              {/* <FormErrorMessage>lol</FormErrorMessage> */}
               <Button
                 mt={4}
                 colorScheme="teal"
-                // isLoading={props.isSubmitting}
+                isLoading={isSubmitting}
                 type="submit"
               >
-                Submit
+                Register
               </Button>
             </FormControl>
           </Form>
