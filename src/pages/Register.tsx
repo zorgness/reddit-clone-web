@@ -22,7 +22,6 @@ const Register: React.FC<RegisterProps> = ({ ...props }) => {
         onSubmit={async (values, { setErrors }) => {
           const response = await register(values);
           if (response.data?.register.errors) {
-            console.log(response.data?.register.errors);
             setErrors(toErrorMap(response.data?.register.errors));
           } else if (response.data?.register.user) {
             navigate("/");
