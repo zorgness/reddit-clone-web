@@ -3,13 +3,15 @@ import { Formik, Form } from "formik";
 import { Wrapper } from "../components/Wrapper";
 import { Box, Button, FormControl } from "@chakra-ui/react";
 import { InputField } from "../components/InputField";
-import { useMutation } from "urql";
 import { useRegisterMutation } from "../generated/graphql";
+import { toErrorMap } from "../util/toErrorMap";
+import { useNavigate } from "react-router-dom";
 
 interface RegisterProps {}
 
 const Register: React.FC<RegisterProps> = ({ ...props }) => {
   const [, register] = useRegisterMutation();
+  const navigate = useNavigate();
   return (
     <Wrapper variant={"small"}>
       <Box textAlign={["center"]}>
@@ -20,9 +22,10 @@ const Register: React.FC<RegisterProps> = ({ ...props }) => {
         onSubmit={async (values, { setErrors }) => {
           const response = await register(values);
           if (response.data?.register.errors) {
-            setErrors({
-              username: "username error",
-            });
+            console.log(response.data?.register.errors);
+            setErrors(toErrorMap(response.data?.register.errors));
+          } else if (response.data?.register.user) {
+            navigate("/");
           }
         }}
       >
