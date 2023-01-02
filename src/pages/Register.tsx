@@ -4,7 +4,7 @@ import { Wrapper } from "../components/Wrapper";
 import { Box, Button, FormControl } from "@chakra-ui/react";
 import { InputField } from "../components/InputField";
 import { useRegisterMutation } from "../generated/graphql";
-import { toErrorMap } from "../util/toErrorMap";
+import { toErrorMap } from "../utils/toErrorMap";
 import { useNavigate } from "react-router-dom";
 
 interface RegisterProps {}
