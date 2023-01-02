@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Register from "./pages/Register";
 import { Home } from "./pages/Home";
 import { createClient, Provider } from "urql";
+import Login from "./pages/Login";
 
 const client = createClient({
   url: "http://localhost:4000/graphql",
@@ -21,6 +22,7 @@ export const App = () => (
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
     </ChakraProvider>
