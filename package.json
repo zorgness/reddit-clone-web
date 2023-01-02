@@ -15,19 +15,22 @@
     "@types/react-dom": "^18.0.4",
     "formik": "^2.2.9",
     "framer-motion": "^6.2.9",
+    "graphql": "^16.6.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-icons": "^3.0.0",
     "react-router-dom": "^6.6.1",
     "react-scripts": "5.0.1",
     "typescript": "^4.6.3",
+    "urql": "^3.0.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "gen": "graphql-codegen --config codegen.yml"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -43,5 +46,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "2.16.2",
+    "@graphql-codegen/client-preset": "1.2.4",
+    "@graphql-codegen/typescript-urql": "^3.7.3"
   }
 }
