@@ -1,18 +1,24 @@
 import React from "react";
 import { Box, Flex, Button, Heading } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
-import { useMeQuery } from "../generated/graphql";
+import { useLogoutMutation, useMeQuery } from "../generated/graphql";
 import { ColorModeSwitcher } from "../ColorModeSwitcher";
 
 interface NavBarProps {}
 
 export const NavBar: React.FC<NavBarProps> = ({}) => {
   const navigate = useNavigate();
-  // const [logout, { loading: logoutFetching }] = useLogoutMutation();
+  const [{ fetching: logoutFetching }, logout] = useLogoutMutation();
+
   // const apolloClient = useApolloClient();
   const [{ data, fetching }] = useMeQuery();
 
   let body = null;
+
+  const handleLogout = async () => {
+    // ? strange behavior, don't know why i have to pass this argument to logout function
+    await logout({ variable: "logout" as never });
+  };
 
   // data is loading
   if (fetching) {
@@ -37,11 +43,11 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
         </Link>
 
         <Button
-          // onClick={async () => {
-          //   await logout();
-          //   await apolloClient.resetStore();
-          // }}
-          // isLoading={logoutFetching}
+          onClick={() => {
+            console.log("logged out");
+            handleLogout();
+          }}
+          isLoading={logoutFetching}
           variant="link"
         >
           logout
