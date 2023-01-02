@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Flex, Button, Heading } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { useMeQuery } from "../generated/graphql";
+import { ColorModeSwitcher } from "../ColorModeSwitcher";
 
 interface NavBarProps {}
 
@@ -45,6 +46,7 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
         >
           logout
         </Button>
+        <ColorModeSwitcher />
       </Flex>
     );
   }
