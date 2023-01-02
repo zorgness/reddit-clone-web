@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Flex, Button, Heading } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
+import { useMeQuery } from "../generated/graphql";
 
 interface NavBarProps {}
 
@@ -8,19 +9,14 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
   const navigate = useNavigate();
   // const [logout, { loading: logoutFetching }] = useLogoutMutation();
   // const apolloClient = useApolloClient();
-  // const { data, loading } = useMeQuery({
-  //   skip: isServer(),
-  // });
-  const loading = false;
-
-  const me = true;
+  const [{ data, fetching }] = useMeQuery();
 
   let body = null;
 
   // data is loading
-  if (loading) {
+  if (fetching) {
     // user not logged in
-  } else if (me) {
+  } else if (!data?.me) {
     body = (
       <>
         <Link to={"/login"} style={{ margin: "12px" }}>
@@ -34,18 +30,21 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
   } else {
     body = (
       <Flex align="center">
-        <Link to="/create-post">create post</Link>
-        <Box mr={2}>username</Box>
-        {/* <Button
-          onClick={async () => {
-            await logout();
-            await apolloClient.resetStore();
-          }}
-          isLoading={logoutFetching}
+        <Box mr={2}>{data.me.username}</Box>
+        <Link to="/create-post" style={{ margin: "12px" }}>
+          create_post
+        </Link>
+
+        <Button
+          // onClick={async () => {
+          //   await logout();
+          //   await apolloClient.resetStore();
+          // }}
+          // isLoading={logoutFetching}
           variant="link"
         >
           logout
-        </Button> */}
+        </Button>
       </Flex>
     );
   }
