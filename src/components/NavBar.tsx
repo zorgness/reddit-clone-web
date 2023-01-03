@@ -3,6 +3,7 @@ import { Box, Flex, Button, Heading } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogoutMutation, useMeQuery } from "../generated/graphql";
 import { ColorModeSwitcher } from "../ColorModeSwitcher";
+import { isServer } from "../utils/isServer";
 
 interface NavBarProps {}
 
@@ -11,7 +12,10 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
   const [{ fetching: logoutFetching }, logout] = useLogoutMutation();
 
   // const apolloClient = useApolloClient();
-  const [{ data, fetching }] = useMeQuery();
+  const [{ data, fetching }] = useMeQuery({
+    pause: isServer(),
+    // if window is undefined no need to make the query
+  });
 
   let body = null;
 
