@@ -5,7 +5,7 @@ import { createUrqlClient } from "../utils/createUrqlClient";
 
 interface HomeProps {}
 
-const Home: React.FC<HomeProps> = ({}) => {
+const Home: React.FC<HomeProps> = () => {
   return (
     <div>
       <NavBar />
