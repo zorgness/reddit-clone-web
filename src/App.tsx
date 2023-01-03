@@ -15,7 +15,7 @@ export const App = () => (
         <Route path="/login" element={<Login pageProps={undefined} />} />
         <Route
           path="/change-password/:token"
-          element={<ChangePassword token={""} />}
+          element={<ChangePassword token={""} pageProps={undefined} />}
         />
       </Routes>
     </BrowserRouter>
