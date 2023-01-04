@@ -23,7 +23,7 @@ const Home: React.FC<HomeProps> = () => {
           return (
             <div key={post._id}>
               <p>{post.title}</p>
-              <p>{post.text}</p>
+              {/* <p>{post.text}</p> */}
             </div>
           );
         })
