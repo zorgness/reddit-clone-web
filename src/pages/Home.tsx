@@ -1,5 +1,6 @@
-import { withUrqlClient } from "next-urql";
 import React from "react";
+import { Box, Button, Flex, Heading, Stack, Text } from "@chakra-ui/react";
+import { withUrqlClient } from "next-urql";
 import { Layout } from "../components/Layout/Layout";
 import { usePostsQuery } from "../generated/graphql";
 import { createUrqlClient } from "../utils/createUrqlClient";
@@ -7,27 +8,59 @@ import { createUrqlClient } from "../utils/createUrqlClient";
 interface HomeProps {}
 
 const Home: React.FC<HomeProps> = () => {
-  const [{ data }] = usePostsQuery({
+  const [{ data, fetching, error }] = usePostsQuery({
     variables: {
       limit: 15,
       cursor: null,
     },
   });
 
+  if (!fetching && !data) {
+    return (
+      <div>
+        <div>you got query failed for some reason</div>
+        <div>{error?.message}</div>
+      </div>
+    );
+  }
+
   return (
     <Layout>
       {!data ? (
         <div>...loading</div>
       ) : (
-        data.posts.posts.map((post) => {
-          return (
-            <div key={post._id}>
-              <p>{post.title}</p>
-              {/* <p>{post.text}</p> */}
-            </div>
-          );
-        })
+        <Stack spacing={8}>
+          {data.posts.posts.map(({ _id, title, textSnippet }) => {
+            return (
+              <Box key={_id} p={5} shadow="md" borderWidth="1px">
+                <Heading fontSize="xl">{title}</Heading>
+                <Text mt={4}>{textSnippet}...</Text>
+              </Box>
+            );
+          })}
+        </Stack>
       )}
+      {data && data.posts.hasMore ? (
+        <Flex>
+          <Button
+            onClick={() => {
+              // fetchMore({
+              //   variables: {
+              //     limit: variables?.limit,
+              //     cursor:
+              //       data.posts.posts[data.posts.posts.length - 1].createdAt,
+              //   },
+              // });
+              console.log("loading more");
+            }}
+            isLoading={fetching}
+            m="auto"
+            my={8}
+          >
+            load more
+          </Button>
+        </Flex>
+      ) : null}
     </Layout>
   );
 };
