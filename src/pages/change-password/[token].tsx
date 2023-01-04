@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import { createUrqlClient } from "../../utils/createUrqlClient";
 import { withUrqlClient } from "next-urql";
 
-const ChangePassword: NextPage<{ token: string }> = () => {
+const ChangePassword: NextPage = () => {
   const navigate = useNavigate();
   const params = useParams();
   const token = params.token as string;
@@ -78,12 +78,6 @@ const ChangePassword: NextPage<{ token: string }> = () => {
       </Formik>
     </Wrapper>
   );
-};
-
-ChangePassword.getInitialProps = ({ query }) => {
-  return {
-    token: query.token as string,
-  };
 };
 
 export default withUrqlClient(createUrqlClient)(ChangePassword);
