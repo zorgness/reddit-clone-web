@@ -1,8 +1,8 @@
-import React from "react";
-import { NavBar } from "../components/NavBar";
 import { withUrqlClient } from "next-urql";
-import { createUrqlClient } from "../utils/createUrqlClient";
+import React from "react";
+import { Layout } from "../components/Layout/Layout";
 import { usePostsQuery } from "../generated/graphql";
+import { createUrqlClient } from "../utils/createUrqlClient";
 
 interface HomeProps {}
 
@@ -10,8 +10,7 @@ const Home: React.FC<HomeProps> = () => {
   const [{ data }] = usePostsQuery();
 
   return (
-    <div>
-      <NavBar />
+    <Layout>
       {!data ? (
         <div>...loading</div>
       ) : (
@@ -19,11 +18,12 @@ const Home: React.FC<HomeProps> = () => {
           return (
             <div key={post._id}>
               <p>{post.title}</p>
+              <p>{post.text}</p>
             </div>
           );
         })
       )}
-    </div>
+    </Layout>
   );
 };
 

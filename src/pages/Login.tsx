@@ -1,20 +1,20 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import { Wrapper } from "../components/Wrapper";
 import { Box, Button, Flex, FormControl } from "@chakra-ui/react";
-import { InputField } from "../components/InputField";
-import { toErrorMap } from "../utils/toErrorMap";
-import { useNavigate } from "react-router-dom";
-import { useLoginMutation } from "../generated/graphql";
+import { Form, Formik } from "formik";
 import { withUrqlClient } from "next-urql";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { InputField } from "../components/InputField";
+import { Wrapper } from "../components/Wrapper";
+import { useLoginMutation } from "../generated/graphql";
 import { createUrqlClient } from "../utils/createUrqlClient";
-import { Link } from "react-router-dom";
+import { toErrorMap } from "../utils/toErrorMap";
 
 interface LoginProps {}
 
-const Login: React.FC<LoginProps> = ({ ...props }) => {
+const Login: React.FC<LoginProps> = () => {
   const [, login] = useLoginMutation();
   const navigate = useNavigate();
+
   return (
     <Wrapper variant={"small"}>
       <Box textAlign={["center"]}>
@@ -27,7 +27,7 @@ const Login: React.FC<LoginProps> = ({ ...props }) => {
           if (response.data?.login.errors) {
             setErrors(toErrorMap(response.data?.login.errors));
           } else if (response.data?.login.user) {
-            navigate("/");
+            navigate(-1);
           }
         }}
       >
