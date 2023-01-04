@@ -7,14 +7,19 @@ import { createUrqlClient } from "../utils/createUrqlClient";
 interface HomeProps {}
 
 const Home: React.FC<HomeProps> = () => {
-  const [{ data }] = usePostsQuery();
+  const [{ data }] = usePostsQuery({
+    variables: {
+      limit: 15,
+      cursor: null,
+    },
+  });
 
   return (
     <Layout>
       {!data ? (
         <div>...loading</div>
       ) : (
-        data.posts.map((post) => {
+        data.posts.posts.map((post) => {
           return (
             <div key={post._id}>
               <p>{post.title}</p>
