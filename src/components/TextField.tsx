@@ -1,34 +1,26 @@
-import React, { InputHTMLAttributes } from "react";
+import React, { TextareaHTMLAttributes } from "react";
 import { useField } from "formik";
 import {
   FormControl,
   FormLabel,
-  Input,
   FormErrorMessage,
   Textarea,
 } from "@chakra-ui/react";
 
-type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
+type TextFieldProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
   label: string;
   name: string;
 };
 
-// '' => false
-// 'error message stuff' => true
-
-export const InputField: React.FC<InputFieldProps> = ({
-  label,
-  size: _,
-  ...props
-}) => {
-  let InputArea = Input;
+export const TextField: React.FC<TextFieldProps> = ({ label, ...props }) => {
+  let TextArea = Textarea;
 
   const [field, { error }] = useField(props);
   return (
     <FormControl isInvalid={!!error}>
       <FormLabel htmlFor={field.name}>{label}</FormLabel>
 
-      <InputArea {...field} {...props} id={field.name} />
+      <TextArea {...field} {...props} id={field.name} />
 
       {error ? <FormErrorMessage>{error}</FormErrorMessage> : null}
     </FormControl>
