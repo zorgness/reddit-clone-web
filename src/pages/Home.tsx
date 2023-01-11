@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Button, Flex, Heading, Stack, Text } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import { Layout } from "../components/Layout/Layout";
@@ -8,11 +8,16 @@ import { createUrqlClient } from "../utils/createUrqlClient";
 interface HomeProps {}
 
 const Home: React.FC<HomeProps> = () => {
+  const [variables, setVariables] = useState({
+    limit: 10,
+    cursor: null as null | string,
+  });
   const [{ data, fetching, error }] = usePostsQuery({
-    variables: {
-      limit: 15,
-      cursor: null,
-    },
+    // variables: {
+    //   limit: 15,
+    //   cursor: null,
+    // },
+    variables,
   });
 
   if (!fetching && !data) {
@@ -44,13 +49,17 @@ const Home: React.FC<HomeProps> = () => {
         <Flex>
           <Button
             onClick={() => {
-              // fetchMore({
+              // hasMore({
               //   variables: {
               //     limit: variables?.limit,
               //     cursor:
               //       data.posts.posts[data.posts.posts.length - 1].createdAt,
               //   },
               // });
+              setVariables({
+                limit: variables?.limit,
+                cursor: data.posts.posts[data.posts.posts.length - 1].createdAt,
+              });
               console.log("loading more");
             }}
             isLoading={fetching}
