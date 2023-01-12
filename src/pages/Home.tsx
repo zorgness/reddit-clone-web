@@ -49,18 +49,10 @@ const Home: React.FC<HomeProps> = () => {
         <Flex>
           <Button
             onClick={() => {
-              // hasMore({
-              //   variables: {
-              //     limit: variables?.limit,
-              //     cursor:
-              //       data.posts.posts[data.posts.posts.length - 1].createdAt,
-              //   },
-              // });
               setVariables({
                 limit: variables?.limit,
                 cursor: data.posts.posts[data.posts.posts.length - 1].createdAt,
               });
-              console.log("loading more");
             }}
             isLoading={fetching}
             m="auto"
