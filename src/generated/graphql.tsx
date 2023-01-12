@@ -135,7 +135,7 @@ export type UsernamePasswordInput = {
   username: Scalars['String'];
 };
 
-export type PostSnippetFragment = { __typename?: 'Post', _id: number, createdAt: string, updatedAt: string, title: string, textSnippet: string, creatorId: number };
+export type PostSnippetFragment = { __typename?: 'Post', _id: number, createdAt: string, updatedAt: string, title: string, textSnippet: string, creatorId: number, creator: { __typename?: 'User', _id: number, username: string } };
 
 export type RegularErrorFragment = { __typename?: 'FieldError', field: string, message: string };
 
@@ -196,7 +196,7 @@ export type PostsQueryVariables = Exact<{
 }>;
 
 
-export type PostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', hasMore: boolean, posts: Array<{ __typename?: 'Post', _id: number, createdAt: string, updatedAt: string, title: string, textSnippet: string, creatorId: number }> } };
+export type PostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', hasMore: boolean, posts: Array<{ __typename?: 'Post', _id: number, createdAt: string, updatedAt: string, title: string, textSnippet: string, creatorId: number, creator: { __typename?: 'User', _id: number, username: string } }> } };
 
 export const PostSnippetFragmentDoc = gql`
     fragment PostSnippet on Post {
@@ -206,6 +206,10 @@ export const PostSnippetFragmentDoc = gql`
   title
   textSnippet
   creatorId
+  creator {
+    _id
+    username
+  }
 }
     `;
 export const RegularErrorFragmentDoc = gql`
