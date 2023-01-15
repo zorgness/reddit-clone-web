@@ -11,7 +11,7 @@ import { createUrqlClient } from "../utils/createUrqlClient";
 
 interface RegisterProps {}
 
-const Register: React.FC<RegisterProps> = ({ ...props }) => {
+const Register: React.FC<RegisterProps> = () => {
   const [, register] = useRegisterMutation();
   const navigate = useNavigate();
   return (
