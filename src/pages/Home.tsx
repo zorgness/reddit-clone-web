@@ -9,7 +9,7 @@ interface HomeProps {}
 
 const Home: React.FC<HomeProps> = () => {
   const [variables, setVariables] = useState({
-    limit: 10,
+    limit: 15,
     cursor: null as null | string,
   });
   const [{ data, fetching, error }] = usePostsQuery({
@@ -39,8 +39,8 @@ const Home: React.FC<HomeProps> = () => {
             return (
               <Box key={_id} p={5} shadow="md" borderWidth="1px">
                 <Heading fontSize="xl">{title}</Heading>
+                <Text>posted by {creator.username}</Text>
                 <Text mt={4}>{textSnippet}...</Text>
-                <Text mt={4}>{creator.username}</Text>
               </Box>
             );
           })}
