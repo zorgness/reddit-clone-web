@@ -12,6 +12,7 @@ export const UpdootSection: React.FC<UpdootSectionProps> = ({ post }) => {
     "upvote" | "downvote" | "not loading"
   >("not loading");
   const [, vote] = useVoteMutation();
+
   return (
     <Flex
       direction={"column"}
@@ -23,6 +24,10 @@ export const UpdootSection: React.FC<UpdootSectionProps> = ({ post }) => {
         colorScheme={post.voteStatus === 1 ? "teal" : undefined}
         aria-label="upvote"
         onClick={async () => {
+          if (post.voteStatus === 1) {
+            return;
+          }
+          setLoadingState("upvote");
           await vote({
             value: 1,
             postId: post._id,
@@ -43,6 +48,10 @@ export const UpdootSection: React.FC<UpdootSectionProps> = ({ post }) => {
         colorScheme={post.voteStatus === -1 ? "red" : undefined}
         aria-label="downvote"
         onClick={async () => {
+          if (post.voteStatus === -1) {
+            return;
+          }
+          setLoadingState("downvote");
           await vote({
             value: -1,
             postId: post._id,
