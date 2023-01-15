@@ -4,6 +4,7 @@ fragment PostSnippet on Post {
   updatedAt
   title
   textSnippet
+  points
   creatorId
   creator {
     _id

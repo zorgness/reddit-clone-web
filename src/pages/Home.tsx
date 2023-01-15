@@ -1,7 +1,8 @@
-import React, { useState } from "react";
 import { Box, Button, Flex, Heading, Stack, Text } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
+import React, { useState } from "react";
 import { Layout } from "../components/Layout/Layout";
+import { UpdootSection } from "../components/UpdootSection";
 import { usePostsQuery } from "../generated/graphql";
 import { createUrqlClient } from "../utils/createUrqlClient";
 
@@ -35,15 +36,20 @@ const Home: React.FC<HomeProps> = () => {
         <div>...loading</div>
       ) : (
         <Stack spacing={8}>
-          {data!.posts.posts.map(({ _id, title, textSnippet, creator }) => {
-            return (
-              <Box key={_id} p={5} shadow="md" borderWidth="1px">
-                <Heading fontSize="xl">{title}</Heading>
-                <Text>posted by {creator.username}</Text>
-                <Text mt={4}>{textSnippet}...</Text>
-              </Box>
-            );
-          })}
+          {data!.posts.posts.map(
+            ({ _id, title, textSnippet, creator }, index) => {
+              return (
+                <Flex key={_id} p={5} shadow="md" borderWidth="1px">
+                  <UpdootSection post={data!.posts.posts[index]} />
+                  <Box>
+                    <Heading fontSize="xl">{title}</Heading>
+                    <Text>posted by {creator.username}</Text>
+                    <Text mt={4}>{textSnippet}...</Text>
+                  </Box>
+                </Flex>
+              );
+            }
+          )}
         </Stack>
       )}
       {data && data.posts.hasMore ? (
