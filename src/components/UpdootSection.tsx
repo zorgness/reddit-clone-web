@@ -8,6 +8,9 @@ interface UpdootSectionProps {
 }
 
 export const UpdootSection: React.FC<UpdootSectionProps> = ({ post }) => {
+  const [loadingState, setLoadingState] = React.useState<
+    "upvote" | "downvote" | "not loading"
+  >("not loading");
   const [, vote] = useVoteMutation();
   return (
     <Flex
@@ -18,23 +21,27 @@ export const UpdootSection: React.FC<UpdootSectionProps> = ({ post }) => {
     >
       <IconButton
         aria-label="upvote"
-        onClick={() => {
-          vote({
+        onClick={async () => {
+          await vote({
             value: 1,
             postId: post._id,
           });
+          setLoadingState("not loading");
         }}
+        isLoading={loadingState === "upvote"}
         icon={<ChevronUpIcon w={8} h={8} color="teal" />}
       />
       {post.points}
       <IconButton
         aria-label="downvote"
-        onClick={() => {
-          vote({
+        onClick={async () => {
+          await vote({
             value: -1,
             postId: post._id,
           });
+          setLoadingState("not loading");
         }}
+        isLoading={loadingState === "downvote"}
         icon={<ChevronDownIcon w={8} h={8} color="red.500" />}
       />
     </Flex>
