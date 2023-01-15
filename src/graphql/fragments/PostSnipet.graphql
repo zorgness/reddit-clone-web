@@ -5,4 +5,8 @@ fragment PostSnippet on Post {
   title
   textSnippet
   creatorId
+  creator {
+    _id
+    username
+  }
 }
