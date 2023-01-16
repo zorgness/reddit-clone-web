@@ -8,6 +8,7 @@ import {
 } from "urql";
 import { pipe, tap } from "wonka";
 import {
+  DeletePostMutationVariables,
   LoginMutation,
   LogoutMutation,
   MeDocument,
@@ -97,7 +98,10 @@ export const createUrqlClient = (ssrExchange: any) => {
         updates: {
           Mutation: {
             deletePost: (_result, args, cache, info) => {
-              invalidateAllPosts(cache);
+              cache.invalidate({
+                __typename: "Post",
+                _id: (args as DeletePostMutationVariables)._id,
+              });
             },
             vote: (_result, args, cache, info) => {
               const { postId, value } = args as VoteMutationVariables;
@@ -125,6 +129,7 @@ export const createUrqlClient = (ssrExchange: any) => {
                     voteStatus
                   }
                 `;
+
                 cache.writeFragment(fragment, {
                   id: postId,
                   points: newValue,

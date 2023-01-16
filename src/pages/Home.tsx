@@ -43,13 +43,19 @@ const Home: React.FC<HomeProps> = () => {
               return (
                 <Flex key={_id} p={5} shadow="md" borderWidth="1px">
                   <UpdootSection post={data!.posts.posts[index]} />
-                  <Box>
+                  <Box flex={1}>
                     <Link to={`/post/${_id}`}>
                       <Heading fontSize="xl">{title}</Heading>
                     </Link>
                     <Text>posted by {creator.username}</Text>
-                    <Text mt={4}>{textSnippet}...</Text>
-                    <EditDeletePostButton _id={_id} creatorId={creatorId} />
+                    <Flex align="center">
+                      <Text flex={1} mt={4}>
+                        {textSnippet}...
+                      </Text>
+                      <Box ml="auto">
+                        <EditDeletePostButton _id={_id} creatorId={creatorId} />
+                      </Box>
+                    </Flex>
                   </Box>
                 </Flex>
               );
