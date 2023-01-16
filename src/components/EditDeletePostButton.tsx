@@ -1,6 +1,8 @@
+import { Box, IconButton } from "@chakra-ui/react";
 import React from "react";
-import { Link } from "react-router-dom";
 import { useDeletePostMutation, useMeQuery } from "../generated/graphql";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { Link } from "react-router-dom";
 
 interface EditDeletePostButtonsProps {
   _id: number;
@@ -19,18 +21,23 @@ export const EditDeletePostButton: React.FC<EditDeletePostButtonsProps> = ({
   }
 
   return (
-    <div>
+    <Box>
       <Link to={`/post/edit/${_id}`}>
-        <button aria-label="edit post">edit</button>
+        <IconButton
+          aria-label="edit post"
+          colorScheme="blue"
+          mr={4}
+          icon={<EditIcon aria-label="Edit Post" />}
+        />
       </Link>
-      <button
+      <IconButton
         aria-label="delete post"
+        colorScheme="red"
         onClick={() => {
           deletePost({ _id });
         }}
-      >
-        delete
-      </button>
-    </div>
+        icon={<DeleteIcon aria-label="Delete Post" />}
+      />
+    </Box>
   );
 };

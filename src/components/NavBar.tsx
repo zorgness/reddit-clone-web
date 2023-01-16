@@ -1,5 +1,7 @@
+import { Box, Button, Flex, Heading } from "@chakra-ui/react";
 import React from "react";
 import { Link } from "react-router-dom";
+import { ColorModeSwitcher } from "../ColorModeSwitcher";
 import { useLogoutMutation, useMeQuery } from "../generated/graphql";
 import { isServer } from "../utils/isServer";
 
@@ -26,42 +28,47 @@ export const NavBar: React.FC<NavBarProps> = () => {
     // user not logged in
   } else if (!data?.me) {
     body = (
-      <div className="flex">
-        <Link to={"/login"} style={{ margin: "16px" }}>
+      <>
+        <Link to={"/login"} style={{ margin: "12px" }}>
           login
         </Link>
-      </div>
+
+        <Link to={"/register"}>register</Link>
+      </>
     );
     // user is logged in
   } else {
     body = (
-      <div>
-        <button>
-          <Link to="/create-post">create post</Link>
-        </button>
+      <Flex align="center">
+        <Link to="/create-post" style={{ margin: "8px" }}>
+          create_post
+        </Link>
 
         {/* <Box mr={2}>{data.me.username}</Box> */}
 
-        <button
+        <Button
           onClick={() => {
             handleLogout();
           }}
+          isLoading={logoutFetching}
+          variant="link"
         >
           logout
-        </button>
-      </div>
+        </Button>
+        <ColorModeSwitcher />
+      </Flex>
     );
   }
 
   return (
-    <div>
-      <div>
+    <Flex zIndex={1} position="sticky" top={0} bg="tan" p={4}>
+      <Flex flex={1} m="auto" align="center" maxW={800}>
         <Link to={"/"}>
-          <h1>Reddit Clone</h1>
+          <Heading>Reddit Clone</Heading>
         </Link>
 
-        <div>{body}</div>
-      </div>
-    </div>
+        <Box ml={"auto"}>{body}</Box>
+      </Flex>
+    </Flex>
   );
 };
