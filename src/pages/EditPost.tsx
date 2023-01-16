@@ -41,7 +41,6 @@ const EditPost = () => {
       <Formik
         initialValues={{ title: data.post.title, text: data.post.text }}
         onSubmit={async (values) => {
-          console.log(values);
           await updatePost({
             _id: intId,
             title: values.title,
