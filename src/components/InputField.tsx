@@ -5,7 +5,6 @@ import {
   FormLabel,
   Input,
   FormErrorMessage,
-  Textarea,
 } from "@chakra-ui/react";
 
 type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
