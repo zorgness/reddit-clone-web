@@ -6,6 +6,7 @@ import CreatePost from "./pages/CreatePost";
 import ForgotPassword from "./pages/ForgotPassword";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Post from "./pages/Post";
 import Register from "./pages/Register";
 
 export const App = () => (
@@ -13,6 +14,7 @@ export const App = () => (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home pageProps={undefined} />} />
+        <Route path="/post/:id" element={<Post pageProps={undefined} />} />
         <Route path="/register" element={<Register pageProps={undefined} />} />
         <Route path="/login" element={<Login pageProps={undefined} />} />
         <Route

@@ -1,8 +1,8 @@
+import { Box, Button, Flex, Heading } from "@chakra-ui/react";
 import React from "react";
-import { Box, Flex, Button, Heading } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { useLogoutMutation, useMeQuery } from "../generated/graphql";
 import { ColorModeSwitcher } from "../ColorModeSwitcher";
+import { useLogoutMutation, useMeQuery } from "../generated/graphql";
 import { isServer } from "../utils/isServer";
 
 interface NavBarProps {}
@@ -40,10 +40,11 @@ export const NavBar: React.FC<NavBarProps> = () => {
   } else {
     body = (
       <Flex align="center">
-        <Box mr={2}>{data.me.username}</Box>
-        <Link to="/create-post" style={{ margin: "12px" }}>
+        <Link to="/create-post" style={{ margin: "8px" }}>
           create_post
         </Link>
+
+        {/* <Box mr={2}>{data.me.username}</Box> */}
 
         <Button
           onClick={() => {

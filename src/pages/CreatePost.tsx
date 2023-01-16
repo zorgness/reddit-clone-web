@@ -25,7 +25,7 @@ const CreatePost: React.FC<{}> = () => {
         initialValues={{ title: "", text: "" }}
         onSubmit={async (values) => {
           const response = await createPost({ input: values });
-          console.log(response);
+
           if (response.error === undefined) {
             navigate("/");
           }

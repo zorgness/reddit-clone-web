@@ -5,6 +5,8 @@ import { Layout } from "../components/Layout/Layout";
 import { UpdootSection } from "../components/UpdootSection";
 import { usePostsQuery } from "../generated/graphql";
 import { createUrqlClient } from "../utils/createUrqlClient";
+import { Link } from "react-router-dom";
+import { EditDeletePostButton } from "../components/EditDeletePostButton";
 
 interface HomeProps {}
 
@@ -37,14 +39,17 @@ const Home: React.FC<HomeProps> = () => {
       ) : (
         <Stack spacing={8}>
           {data!.posts.posts.map(
-            ({ _id, title, textSnippet, creator }, index) => {
+            ({ _id, title, textSnippet, creatorId, creator }, index) => {
               return (
                 <Flex key={_id} p={5} shadow="md" borderWidth="1px">
                   <UpdootSection post={data!.posts.posts[index]} />
                   <Box>
-                    <Heading fontSize="xl">{title}</Heading>
+                    <Link to={`/post/${_id}`}>
+                      <Heading fontSize="xl">{title}</Heading>
+                    </Link>
                     <Text>posted by {creator.username}</Text>
                     <Text mt={4}>{textSnippet}...</Text>
+                    <EditDeletePostButton _id={_id} creatorId={creatorId} />
                   </Box>
                 </Flex>
               );
