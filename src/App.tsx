@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Post from "./pages/Post";
 import Register from "./pages/Register";
+import "./App.css";
 
 export const App = () => (
   <ChakraProvider theme={theme}>

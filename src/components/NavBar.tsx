@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  MenuButton,
   Flex,
   Heading,
   Image,
@@ -12,8 +11,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ColorModeSwitcher } from "../ColorModeSwitcher";
 import { useLogoutMutation, useMeQuery } from "../generated/graphql";
-import { isServer } from "../utils/isServer";
 import reddit from "../icon/reddit.png";
+import { isServer } from "../utils/isServer";
 
 interface NavBarProps {}
 
@@ -49,6 +48,7 @@ export const NavBar: React.FC<NavBarProps> = () => {
             login
           </Link>
         </Button>
+        <ColorModeSwitcher />
       </>
     );
     // user is logged in
@@ -100,7 +100,8 @@ export const NavBar: React.FC<NavBarProps> = () => {
               mr={1}
             />
             <Heading fontSize={{ base: "12px", md: "40px", lg: "40px" }}>
-              mini reddit
+              mini redd
+              <span className="special">i</span>t
             </Heading>
           </Flex>
         </Link>

@@ -1,0 +1,22 @@
+.special {
+  position: relative;
+  display: inline-block;
+}
+.special:before,
+.special:after {
+  opacity: 1;
+  content: "i";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  font: inherit;
+}
+/* The 0.35 might have to be adjusted for other fonts. */
+.special:before {
+  color: #ff4500;
+  clip: rect(auto, auto, 0.4em, auto);
+}
+.special:after {
+  clip: rect(0.4em, auto, auto, auto);
+}
