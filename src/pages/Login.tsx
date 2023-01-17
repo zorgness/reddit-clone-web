@@ -50,7 +50,13 @@ const Login: React.FC<LoginProps> = () => {
                 />
               </Box>
 
-              <Flex mt={4}>
+              <Flex mt={4} mr={2}>
+                <Box ml={"auto"}>
+                  <Link to={"/register"}>No account yet ? Register here</Link>
+                </Box>
+              </Flex>
+
+              <Flex mt={4} mr={2}>
                 <Box ml={"auto"}>
                   <Link to={"/forgot-password"}>forget your password ?</Link>
                 </Box>
