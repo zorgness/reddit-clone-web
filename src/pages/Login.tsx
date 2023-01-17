@@ -1,4 +1,4 @@
-import { Box, Button, Flex, FormControl } from "@chakra-ui/react";
+import { Box, Button, Flex, FormControl, Text } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { withUrqlClient } from "next-urql";
 import React from "react";
@@ -18,7 +18,9 @@ const Login: React.FC<LoginProps> = () => {
   return (
     <Wrapper variant={"small"}>
       <Box textAlign={["center"]}>
-        <h1>Login</h1>
+        <Text fontSize="4xl" as="b">
+          Login
+        </Text>
       </Box>
       <Formik
         initialValues={{ usernameOrEmail: "", password: "" }}
@@ -51,25 +53,37 @@ const Login: React.FC<LoginProps> = () => {
               </Box>
 
               <Flex mt={4} mr={2}>
-                <Box ml={"auto"}>
-                  <Link to={"/register"}>No account yet ? Register here</Link>
+                <Box ml={"auto"} color="grey" _hover={{ color: "teal.600" }}>
+                  <Link to={"/register"}>
+                    No account yet ? <strong>register here</strong>{" "}
+                  </Link>
                 </Box>
               </Flex>
 
               <Flex mt={4} mr={2}>
-                <Box ml={"auto"}>
-                  <Link to={"/forgot-password"}>forget your password ?</Link>
+                <Box ml={"auto"} color="grey" _hover={{ color: "teal.600" }}>
+                  <Link to={"/forgot-password"}>
+                    Forget your <strong>password </strong>?
+                  </Link>
                 </Box>
               </Flex>
 
-              <Button
-                mt={4}
-                colorScheme="teal"
-                isLoading={isSubmitting}
-                type="submit"
-              >
-                Login
-              </Button>
+              <Flex align={"center"} justifyContent={"center"}>
+                <Button
+                  mt={4}
+                  colorScheme="orange"
+                  bg="#ff4500"
+                  color="white"
+                  borderRadius="full"
+                  isLoading={isSubmitting}
+                  type="submit"
+                  size="lg"
+                  height="48px"
+                  width="200px"
+                >
+                  Login
+                </Button>
+              </Flex>
             </FormControl>
           </Form>
         )}

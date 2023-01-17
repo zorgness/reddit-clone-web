@@ -30,11 +30,16 @@ export const NavBar: React.FC<NavBarProps> = () => {
   } else if (!data?.me) {
     body = (
       <>
-        <Link to={"/login"} style={{ margin: "12px" }}>
-          login
-        </Link>
-
-        <Link to={"/register"}>register</Link>
+        <Button
+          colorScheme="orange"
+          bg="#ff4500"
+          color="white"
+          borderRadius="full"
+        >
+          <Link to={"/login"} style={{ margin: "12px" }}>
+            login
+          </Link>
+        </Button>
       </>
     );
     // user is logged in
