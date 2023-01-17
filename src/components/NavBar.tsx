@@ -1,4 +1,13 @@
-import { Box, Button, Flex, Heading, Image } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  MenuButton,
+  Flex,
+  Heading,
+  Image,
+  useColorModeValue,
+} from "@chakra-ui/react";
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { ColorModeSwitcher } from "../ColorModeSwitcher";
@@ -48,11 +57,11 @@ export const NavBar: React.FC<NavBarProps> = () => {
       <Flex align="center">
         <Button mr={3}>
           <Link to="/create-post" style={{ margin: "8px" }}>
-            create_post
+            create
           </Link>
         </Button>
 
-        <Box mr={3}>{data.me.username}</Box>
+        {/* <Box mr={3}>{data.me.username}</Box> */}
 
         <Button
           onClick={() => {
@@ -73,7 +82,7 @@ export const NavBar: React.FC<NavBarProps> = () => {
       zIndex={1}
       position="sticky"
       top={0}
-      bg="#F7FAFC"
+      bg={useColorModeValue("#F7FAFC", "gray.900")}
       style={{
         borderBottom: "1px solid lightgrey",
         boxShadow: "0 0 15px rgba(0,0,0,0.2)",
@@ -90,7 +99,9 @@ export const NavBar: React.FC<NavBarProps> = () => {
               boxSize={"40px"}
               mr={1}
             />
-            <Heading>mini reddit</Heading>
+            <Heading fontSize={{ base: "12px", md: "40px", lg: "40px" }}>
+              mini reddit
+            </Heading>
           </Flex>
         </Link>
 
