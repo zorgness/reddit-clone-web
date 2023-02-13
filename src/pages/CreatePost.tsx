@@ -22,7 +22,7 @@ const CreatePost: React.FC<{}> = () => {
         <h1>Create Post</h1>
       </Box>
       <Formik
-        initialValues={{ title: "", text: "" }}
+        initialValues={{ title: "", text: "", categoryId: 0 }}
         onSubmit={async (values) => {
           const response = await createPost({ input: values });
 

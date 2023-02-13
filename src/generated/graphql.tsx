@@ -176,7 +176,7 @@ export type CreatePostMutationVariables = Exact<{
 }>;
 
 
-export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', _id: number, createdAt: string, updatedAt: string, title: string, text: string, creatorId: number } };
+export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', _id: number, createdAt: string, updatedAt: string, title: string, text: string, creatorId: number, categoryId: number } };
 
 export type DeletePostMutationVariables = Exact<{
   _id: Scalars['Float'];
@@ -308,6 +308,7 @@ export const CreatePostDocument = gql`
     title
     text
     creatorId
+    categoryId
   }
 }
     `;
