@@ -15,6 +15,14 @@ export type Scalars = {
   Float: number;
 };
 
+export type Category = {
+  __typename?: 'Category';
+  _id: Scalars['Int'];
+  createdAt: Scalars['String'];
+  title: Scalars['String'];
+  updatedAt: Scalars['String'];
+};
+
 export type FieldError = {
   __typename?: 'FieldError';
   field: Scalars['String'];
@@ -88,6 +96,8 @@ export type PaginatedPosts = {
 export type Post = {
   __typename?: 'Post';
   _id: Scalars['Int'];
+  category: Category;
+  categoryId: Scalars['Float'];
   createdAt: Scalars['String'];
   creator: User;
   creatorId: Scalars['Float'];
@@ -100,6 +110,7 @@ export type Post = {
 };
 
 export type PostInput = {
+  categoryId: Scalars['Float'];
   text: Scalars['String'];
   title: Scalars['String'];
 };
