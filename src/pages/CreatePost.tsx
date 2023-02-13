@@ -1,4 +1,4 @@
-import { Box, Button, FormControl } from "@chakra-ui/react";
+import { Box, Button, FormControl, Select } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { withUrqlClient } from "next-urql";
 import React from "react";
@@ -9,12 +9,19 @@ import { TextField } from "../components/TextField";
 import { useCreatePostMutation } from "../generated/graphql";
 import { useIsAuth } from "../hooks/useIsAuth";
 import { createUrqlClient } from "../utils/createUrqlClient";
+import { data as options } from "./../data/categoryData";
 
 const CreatePost: React.FC<{}> = () => {
   const navigate = useNavigate();
 
   useIsAuth();
   const [, createPost] = useCreatePostMutation();
+  const [selectedOption, setSelectedOption] = React.useState("");
+
+  const handleChange = (e: any) => {
+    console.log(e.target.value);
+    setSelectedOption(e.target.value);
+  };
 
   return (
     <Layout variant="small">
@@ -22,8 +29,14 @@ const CreatePost: React.FC<{}> = () => {
         <h1>Create Post</h1>
       </Box>
       <Formik
-        initialValues={{ title: "", text: "", categoryId: 0 }}
+        initialValues={{
+          title: "",
+          text: "",
+          categoryId: 0,
+        }}
         onSubmit={async (values) => {
+          values.categoryId = parseInt(selectedOption);
+
           const response = await createPost({ input: values });
 
           if (response.error === undefined) {
@@ -39,6 +52,21 @@ const CreatePost: React.FC<{}> = () => {
               </Box>
               <Box mt={4}>
                 <TextField name="text" placeholder="text..." label="Text" />
+              </Box>
+
+              <Box mt={4}>
+                <Select value={selectedOption} onChange={handleChange}>
+                  <option value="" disabled>
+                    Select an option
+                  </option>
+                  {options.map((option) => {
+                    return (
+                      <option key={option.id} value={option.value}>
+                        {option.label}
+                      </option>
+                    );
+                  })}
+                </Select>
               </Box>
 
               <Button
