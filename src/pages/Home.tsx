@@ -39,7 +39,18 @@ const Home: React.FC<HomeProps> = () => {
       ) : (
         <Stack spacing={8}>
           {data!.posts.posts.map(
-            ({ _id, title, textSnippet, creatorId, creator }, index) => {
+            (
+              {
+                _id,
+                title,
+                textSnippet,
+                creatorId,
+                creator,
+                categoryId,
+                category,
+              },
+              index
+            ) => {
               return (
                 <Flex key={_id} p={5} shadow="md" borderWidth="1px">
                   <UpdootSection post={data!.posts.posts[index]} />
@@ -47,6 +58,7 @@ const Home: React.FC<HomeProps> = () => {
                     <Link to={`/post/${_id}`}>
                       <Heading fontSize="xl">{title}</Heading>
                     </Link>
+                    <Text>category: {category.title}</Text>
                     <Text>posted by {creator.username}</Text>
                     <Flex align="center">
                       <Text flex={1} mt={4}>

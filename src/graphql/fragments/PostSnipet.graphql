@@ -7,8 +7,13 @@ fragment PostSnippet on Post {
   voteStatus
   points
   creatorId
+  categoryId
   creator {
     _id
     username
+  }
+  category {
+    _id
+    title
   }
 }

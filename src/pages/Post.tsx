@@ -38,6 +38,7 @@ const Post = () => {
   return (
     <Layout>
       <Heading m={4}>{data.post.title}</Heading>
+      <Heading m={4}>lol{data.post.categoryId}</Heading>
       <Box m={4}>{data.post.text}</Box>
       <EditDeletePostButton
         _id={data.post._id}

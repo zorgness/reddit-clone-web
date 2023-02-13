@@ -8,5 +8,6 @@ query Post($_id: Int!) {
     text
     voteStatus
     creatorId
+    categoryId
   }
 }
