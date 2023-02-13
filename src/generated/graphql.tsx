@@ -117,6 +117,7 @@ export type PostInput = {
 
 export type Query = {
   __typename?: 'Query';
+  category?: Maybe<Array<Category>>;
   hello: Scalars['String'];
   me?: Maybe<User>;
   post?: Maybe<Post>;
@@ -228,6 +229,11 @@ export type VoteMutationVariables = Exact<{
 
 
 export type VoteMutation = { __typename?: 'Mutation', vote: boolean };
+
+export type CategoryQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CategoryQuery = { __typename?: 'Query', category?: Array<{ __typename?: 'Category', _id: number, title: string }> | null };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -392,6 +398,18 @@ export const VoteDocument = gql`
 
 export function useVoteMutation() {
   return Urql.useMutation<VoteMutation, VoteMutationVariables>(VoteDocument);
+};
+export const CategoryDocument = gql`
+    query Category {
+  category {
+    _id
+    title
+  }
+}
+    `;
+
+export function useCategoryQuery(options?: Omit<Urql.UseQueryArgs<CategoryQueryVariables>, 'query'>) {
+  return Urql.useQuery<CategoryQuery, CategoryQueryVariables>({ query: CategoryDocument, ...options });
 };
 export const MeDocument = gql`
     query Me {

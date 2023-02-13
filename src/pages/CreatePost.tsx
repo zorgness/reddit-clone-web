@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { InputField } from "../components/InputField";
 import { Layout } from "../components/Layout/Layout";
 import { TextField } from "../components/TextField";
-import { useCreatePostMutation } from "../generated/graphql";
+import { useCategoryQuery, useCreatePostMutation } from "../generated/graphql";
 import { useIsAuth } from "../hooks/useIsAuth";
 import { createUrqlClient } from "../utils/createUrqlClient";
 import { data as options } from "./../data/categoryData";
@@ -22,6 +22,10 @@ const CreatePost: React.FC<{}> = () => {
     console.log(e.target.value);
     setSelectedOption(e.target.value);
   };
+
+  const categories = useCategoryQuery();
+
+  console.log(categories[0].data?.category);
 
   return (
     <Layout variant="small">

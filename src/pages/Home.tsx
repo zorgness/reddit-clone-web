@@ -40,15 +40,7 @@ const Home: React.FC<HomeProps> = () => {
         <Stack spacing={8}>
           {data!.posts.posts.map(
             (
-              {
-                _id,
-                title,
-                textSnippet,
-                creatorId,
-                creator,
-                categoryId,
-                category,
-              },
+              { _id, title, textSnippet, creatorId, creator, category },
               index
             ) => {
               return (
