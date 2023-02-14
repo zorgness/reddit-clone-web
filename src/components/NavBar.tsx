@@ -13,6 +13,7 @@ import { ColorModeSwitcher } from "../ColorModeSwitcher";
 import { useLogoutMutation, useMeQuery } from "../generated/graphql";
 import reddit from "../icon/reddit.png";
 import { isServer } from "../utils/isServer";
+import CategoryNavBar from "./CategoryNavBar";
 
 interface NavBarProps {}
 
@@ -92,6 +93,7 @@ export const NavBar: React.FC<NavBarProps> = () => {
       <Flex flex={1} m="auto" align="center" maxW={800}>
         <Link to={"/"}>
           <Flex align="center">
+            <CategoryNavBar children={undefined} />
             <Image
               src={reddit}
               alt="reddit"
