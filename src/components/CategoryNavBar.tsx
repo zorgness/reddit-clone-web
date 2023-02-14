@@ -25,6 +25,7 @@ import {
 } from "react-icons/fi";
 import { NavigationContext } from "../context/CategoryContext";
 import { useCategoryQuery } from "../generated/graphql";
+import { Link } from "react-router-dom";
 
 interface LinkItemProps {
   icon: IconType;
@@ -82,6 +83,10 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   const { setCategory } = useContext(NavigationContext);
   const handleClick = (_id: number) => {
     setCategory(_id);
+    setTimeout(() => {
+      onClose();
+      window.location.reload();
+    }, 0o300);
   };
 
   return (
@@ -97,19 +102,22 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
-
-      <NavItem icon={LinkIcons[0]?.icon} onClick={() => handleClick(0)}>
-        Popular
-      </NavItem>
+      <Link to="/">
+        <NavItem icon={LinkIcons[0]?.icon} onClick={() => handleClick(0)}>
+          Popular
+        </NavItem>
+      </Link>
 
       {categoriesLink?.map((link, index) => (
-        <NavItem
-          key={link._id}
-          icon={LinkIcons[index + 1]?.icon}
-          onClick={() => handleClick(link._id)}
-        >
-          {link.title}
-        </NavItem>
+        <Link to={`/${link.title}/${link._id}`}>
+          <NavItem
+            key={link._id}
+            icon={LinkIcons[index + 1]?.icon}
+            onClick={() => handleClick(link._id)}
+          >
+            {link.title}
+          </NavItem>
+        </Link>
       ))}
     </Box>
   );

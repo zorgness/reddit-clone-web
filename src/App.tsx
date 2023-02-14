@@ -2,6 +2,7 @@ import { ChakraProvider, theme } from "@chakra-ui/react";
 import * as React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
+import CategoryPage from "./pages/CategoryPage";
 import ChangePassword from "./pages/change-password/[token]";
 import CreatePost from "./pages/CreatePost";
 import EditPost from "./pages/EditPost";
@@ -17,6 +18,10 @@ export const App = () => (
       <Routes>
         <Route path="/" element={<Home pageProps={undefined} />} />
         <Route path="/post/:id" element={<Post pageProps={undefined} />} />
+        <Route
+          path="/:category/:id"
+          element={<CategoryPage pageProps={undefined} />}
+        />
         <Route
           path="/post/edit/:id"
           element={<EditPost pageProps={undefined} />}

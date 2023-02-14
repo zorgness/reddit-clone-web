@@ -1,23 +1,24 @@
-import React, { useState, useContext } from "react";
-import { Box, Button, Flex, Heading, Stack, Text } from "@chakra-ui/react";
+import React, { useContext, useState } from "react";
+import { createUrqlClient } from "../utils/createUrqlClient";
+import { Link, useParams } from "react-router-dom";
 import { withUrqlClient } from "next-urql";
 import { Layout } from "../components/Layout/Layout";
-import { UpdootSection } from "../components/UpdootSection";
-import { usePostsQuery } from "../generated/graphql";
-import { createUrqlClient } from "../utils/createUrqlClient";
-import { Link } from "react-router-dom";
+import { Stack, Flex, Heading, Button, Box, Text } from "@chakra-ui/react";
 import { EditDeletePostButton } from "../components/EditDeletePostButton";
+import { UpdootSection } from "../components/UpdootSection";
 import { NavigationContext } from "../context/CategoryContext";
+import { usePostsQuery } from "../generated/graphql";
 
-interface HomeProps {}
+interface CategoryPageProps {}
 
-const Home: React.FC<HomeProps> = () => {
-  const { currentCategoryId } = useContext(NavigationContext);
+const CategoryPage: React.FC<CategoryPageProps> = ({}) => {
+  const params = useParams();
+  // const { currentCategoryId } = useContext(NavigationContext);
 
   const [variables, setVariables] = useState({
     limit: 15,
     cursor: null as null | string,
-    categoryId: currentCategoryId,
+    categoryId: parseInt(params?.id as string),
   });
   const [{ data, fetching, error }] = usePostsQuery({
     variables,
@@ -34,7 +35,7 @@ const Home: React.FC<HomeProps> = () => {
 
   return (
     <Layout>
-      <div>Popular</div>
+      <div>{params.category}</div>
       {!data ? (
         <div>...loading</div>
       ) : (
@@ -75,7 +76,7 @@ const Home: React.FC<HomeProps> = () => {
               setVariables({
                 limit: variables?.limit,
                 cursor: data.posts.posts[data.posts.posts.length - 1].createdAt,
-                categoryId: currentCategoryId,
+                categoryId: parseInt(params?.id as string),
               });
             }}
             isLoading={fetching}
@@ -90,7 +91,4 @@ const Home: React.FC<HomeProps> = () => {
   );
 };
 
-// server side rendering is important for pages with updates, for seo google,
-// no need on static pages as login or register
-
-export default withUrqlClient(createUrqlClient, { ssr: true })(Home);
+export default withUrqlClient(createUrqlClient, { ssr: true })(CategoryPage);

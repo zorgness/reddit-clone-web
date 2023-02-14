@@ -1,5 +1,5 @@
-query Posts($limit: Int!, $cursor: String) {
-  posts(limit: $limit, cursor: $cursor) {
+query Posts($categoryId: Int!, $limit: Int!, $cursor: String) {
+  posts(categoryId: $categoryId, limit: $limit, cursor: $cursor) {
     hasMore
     posts {
       ...PostSnippet
