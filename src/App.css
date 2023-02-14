@@ -20,3 +20,11 @@
 .special:after {
   clip: rect(0.4em, auto, auto, auto);
 }
+
+@media (min-width: 768px) {
+  .sidebar-container-desktop {
+    position: absolute;
+    top: 48px;
+    border-top: 1px solid black;
+  }
+}

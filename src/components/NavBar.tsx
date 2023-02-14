@@ -79,37 +79,42 @@ export const NavBar: React.FC<NavBarProps> = () => {
   }
 
   return (
-    <Flex
-      zIndex={1}
-      position="sticky"
-      top={0}
-      bg={useColorModeValue("#F7FAFC", "gray.900")}
-      style={{
-        borderBottom: "1px solid lightgrey",
-        boxShadow: "0 0 15px rgba(0,0,0,0.2)",
-      }}
-      p={4}
-    >
-      <Flex flex={1} m="auto" align="center" maxW={800}>
-        <Link to={"/"}>
-          <Flex align="center">
-            <CategoryNavBar children={undefined} />
-            <Image
-              src={reddit}
-              alt="reddit"
-              borderRadius="full"
-              boxSize={"40px"}
-              mr={1}
-            />
-            <Heading fontSize={{ base: "12px", md: "40px", lg: "40px" }}>
-              mini redd
-              <span className="special">i</span>t
-            </Heading>
-          </Flex>
-        </Link>
+    <>
+      <Flex
+        zIndex={1}
+        position="fixed"
+        w={"100%"}
+        top={0}
+        bg={useColorModeValue("#F7FAFC", "gray.900")}
+        style={{
+          borderBottom: "1px solid lightgrey",
+          boxShadow: "0 0 15px rgba(0,0,0,0.2)",
+        }}
+        p={0}
+      >
+        <Box className="sidebar-container-desktop">
+          <CategoryNavBar children={undefined} />
+        </Box>
+        <Flex flex={1} m="auto" align="center" maxW={800}>
+          <Link to={"/"}>
+            <Flex align="center">
+              <Image
+                src={reddit}
+                alt="reddit"
+                borderRadius="full"
+                boxSize={"40px"}
+                mr={1}
+              />
+              <Heading fontSize={{ base: "12px", md: "40px", lg: "40px" }}>
+                mini redd
+                <span className="special">i</span>t
+              </Heading>
+            </Flex>
+          </Link>
 
-        <Box ml={"auto"}>{body}</Box>
+          <Box ml={"auto"}>{body}</Box>
+        </Flex>
       </Flex>
-    </Flex>
+    </>
   );
 };
