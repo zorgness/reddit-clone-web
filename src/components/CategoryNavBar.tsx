@@ -1,30 +1,29 @@
-import React, { ReactNode } from "react";
 import {
-  IconButton,
   Box,
+  BoxProps,
   CloseButton,
-  Flex,
-  Icon,
-  useColorModeValue,
-  Link,
   Drawer,
   DrawerContent,
-  useDisclosure,
-  BoxProps,
+  Flex,
   FlexProps,
+  Icon,
+  IconButton,
+  useColorModeValue,
+  useDisclosure,
 } from "@chakra-ui/react";
+import React, { ReactText, useContext } from "react";
+import { IconType } from "react-icons";
 import {
-  FiTrendingUp,
-  FiStar,
-  FiMenu,
   FiActivity,
-  FiGlobe,
+  FiArchive,
   FiCpu,
   FiDollarSign,
-  FiArchive,
+  FiGlobe,
+  FiMenu,
+  FiStar,
+  FiTrendingUp,
 } from "react-icons/fi";
-import { IconType } from "react-icons";
-import { ReactText } from "react";
+import { NavigationContext } from "../context/CategoryContext";
 import { useCategoryQuery } from "../generated/graphql";
 
 interface LinkItemProps {
@@ -48,8 +47,6 @@ const CategoriesLinkItems = () => {
 
 export default function CategoryNavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  // const categories = useCategoryQuery();
-  // const categoriesLink = categories[0].data?.category;
 
   return (
     <Box>
@@ -82,6 +79,11 @@ interface SidebarProps extends BoxProps {
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   const categoriesLink = CategoriesLinkItems();
+  const { setCategory } = useContext(NavigationContext);
+  const handleClick = (_id: number) => {
+    setCategory(_id);
+  };
+
   return (
     <Box
       bg={useColorModeValue("white", "gray.900")}
@@ -96,10 +98,16 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
 
-      <NavItem icon={LinkIcons[0]?.icon}>Popular</NavItem>
+      <NavItem icon={LinkIcons[0]?.icon} onClick={() => handleClick(0)}>
+        Popular
+      </NavItem>
 
       {categoriesLink?.map((link, index) => (
-        <NavItem key={link._id} icon={LinkIcons[index + 1]?.icon}>
+        <NavItem
+          key={link._id}
+          icon={LinkIcons[index + 1]?.icon}
+          onClick={() => handleClick(link._id)}
+        >
           {link.title}
         </NavItem>
       ))}
@@ -113,37 +121,31 @@ interface NavItemProps extends FlexProps {
 }
 const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
   return (
-    <Link
-      href="#"
-      style={{ textDecoration: "none" }}
-      _focus={{ boxShadow: "none" }}
+    <Flex
+      align="center"
+      p="4"
+      mx="4"
+      borderRadius="lg"
+      role="group"
+      cursor="pointer"
+      _hover={{
+        bg: "cyan.400",
+        color: "white",
+      }}
+      {...rest}
     >
-      <Flex
-        align="center"
-        p="4"
-        mx="4"
-        borderRadius="lg"
-        role="group"
-        cursor="pointer"
-        _hover={{
-          bg: "cyan.400",
-          color: "white",
-        }}
-        {...rest}
-      >
-        {icon && (
-          <Icon
-            mr="4"
-            fontSize="16"
-            _groupHover={{
-              color: "white",
-            }}
-            as={icon}
-          />
-        )}
-        {children}
-      </Flex>
-    </Link>
+      {icon && (
+        <Icon
+          mr="4"
+          fontSize="16"
+          _groupHover={{
+            color: "white",
+          }}
+          as={icon}
+        />
+      )}
+      {children}
+    </Flex>
   );
 };
 

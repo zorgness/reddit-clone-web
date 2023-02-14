@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Box, Button, Flex, Heading, Stack, Text } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import { Layout } from "../components/Layout/Layout";
@@ -7,10 +7,13 @@ import { usePostsQuery } from "../generated/graphql";
 import { createUrqlClient } from "../utils/createUrqlClient";
 import { Link } from "react-router-dom";
 import { EditDeletePostButton } from "../components/EditDeletePostButton";
+import { NavigationContext } from "../context/CategoryContext";
 
 interface HomeProps {}
 
 const Home: React.FC<HomeProps> = () => {
+  const { currentCategoryId } = useContext(NavigationContext);
+  console.log(currentCategoryId);
   const [variables, setVariables] = useState({
     limit: 15,
     cursor: null as null | string,
