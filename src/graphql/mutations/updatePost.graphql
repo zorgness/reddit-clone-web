@@ -1,8 +1,14 @@
-mutation UpdatePost($_id: Float!, $title: String!, $text: String!) {
-  updatePost(_id: $_id, title: $title, text: $text) {
+mutation UpdatePost(
+  $_id: Float!
+  $title: String!
+  $text: String!
+  $categoryId: Float!
+) {
+  updatePost(_id: $_id, title: $title, text: $text, categoryId: $categoryId) {
     _id
     title
     text
     textSnippet
+    categoryId
   }
 }

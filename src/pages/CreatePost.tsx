@@ -5,6 +5,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { InputField } from "../components/InputField";
 import { Layout } from "../components/Layout/Layout";
+import { SelectField } from "../components/SelectField";
 import { TextField } from "../components/TextField";
 import { useCategoryQuery, useCreatePostMutation } from "../generated/graphql";
 import { useIsAuth } from "../hooks/useIsAuth";
@@ -17,13 +18,13 @@ const CreatePost: React.FC<{}> = () => {
   const [, createPost] = useCreatePostMutation();
   const [selectedOption, setSelectedOption] = React.useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChange = (e: any) => {
     setSelectedOption(e.currentTarget.value);
   };
 
-  const categories = useCategoryQuery();
+  // const categories = useCategoryQuery();
 
-  const categoriesOptions = categories[0].data?.category;
+  // const categoriesOptions = categories[0].data?.category;
 
   return (
     <Layout variant="small">
@@ -57,7 +58,7 @@ const CreatePost: React.FC<{}> = () => {
               </Box>
 
               <Box mt={4}>
-                <Select value={selectedOption} onChange={handleChange}>
+                {/* <Select value={selectedOption} onChange={handleChange}>
                   <option value="" disabled>
                     Select an option
                   </option>
@@ -68,7 +69,8 @@ const CreatePost: React.FC<{}> = () => {
                       </option>
                     );
                   })}
-                </Select>
+                </Select> */}
+                <SelectField value={selectedOption} onChange={handleChange} />
               </Box>
 
               <Button

@@ -77,6 +77,7 @@ export type MutationRegisterArgs = {
 
 export type MutationUpdatePostArgs = {
   _id: Scalars['Float'];
+  categoryId?: InputMaybe<Scalars['Float']>;
   text?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
 };
@@ -217,10 +218,11 @@ export type UpdatePostMutationVariables = Exact<{
   _id: Scalars['Float'];
   title: Scalars['String'];
   text: Scalars['String'];
+  categoryId: Scalars['Float'];
 }>;
 
 
-export type UpdatePostMutation = { __typename?: 'Mutation', updatePost?: { __typename?: 'Post', _id: number, title: string, text: string, textSnippet: string } | null };
+export type UpdatePostMutation = { __typename?: 'Mutation', updatePost?: { __typename?: 'Post', _id: number, title: string, text: string, textSnippet: string, categoryId: number } | null };
 
 export type VoteMutationVariables = Exact<{
   value: Scalars['Int'];
@@ -377,12 +379,13 @@ export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
 };
 export const UpdatePostDocument = gql`
-    mutation UpdatePost($_id: Float!, $title: String!, $text: String!) {
-  updatePost(_id: $_id, title: $title, text: $text) {
+    mutation UpdatePost($_id: Float!, $title: String!, $text: String!, $categoryId: Float!) {
+  updatePost(_id: $_id, title: $title, text: $text, categoryId: $categoryId) {
     _id
     title
     text
     textSnippet
+    categoryId
   }
 }
     `;
