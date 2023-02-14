@@ -9,38 +9,49 @@ import {
   Link,
   Drawer,
   DrawerContent,
-  Text,
   useDisclosure,
   BoxProps,
   FlexProps,
 } from "@chakra-ui/react";
 import {
-  FiHome,
   FiTrendingUp,
-  FiCompass,
   FiStar,
-  FiSettings,
   FiMenu,
+  FiActivity,
+  FiGlobe,
+  FiCpu,
+  FiDollarSign,
+  FiArchive,
 } from "react-icons/fi";
 import { IconType } from "react-icons";
 import { ReactText } from "react";
+import { useCategoryQuery } from "../generated/graphql";
 
 interface LinkItemProps {
-  name: string;
   icon: IconType;
 }
-const LinkItems: Array<LinkItemProps> = [
-  { name: "Home", icon: FiHome },
-  { name: "Trending", icon: FiTrendingUp },
-  { name: "Explore", icon: FiCompass },
-  { name: "Favourites", icon: FiStar },
-  { name: "Settings", icon: FiSettings },
+const LinkIcons: Array<LinkItemProps> = [
+  { icon: FiTrendingUp },
+  { icon: FiCpu },
+  { icon: FiGlobe },
+  { icon: FiActivity },
+  { icon: FiDollarSign },
+  { icon: FiStar },
+  { icon: FiArchive },
 ];
 
-export default function CategoryNavBar({ children }: { children: ReactNode }) {
+const CategoriesLinkItems = () => {
+  const categories = useCategoryQuery();
+  const categoriesLink = categories[0].data?.category;
+  return categoriesLink;
+};
+
+export default function CategoryNavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  // const categories = useCategoryQuery();
+  // const categoriesLink = categories[0].data?.category;
+
   return (
-    // <Box minH="0vh" bg={useColorModeValue("gray.100", "gray.900")}>
     <Box>
       <SidebarContent
         onClose={() => onClose}
@@ -59,11 +70,8 @@ export default function CategoryNavBar({ children }: { children: ReactNode }) {
           <SidebarContent onClose={onClose} />
         </DrawerContent>
       </Drawer>
-      {/* mobilenav */}
+
       <MobileNav display={{ base: "flex", md: "none" }} onOpen={onOpen} />
-      {/* <Box ml={{ base: 0, md: 60 }} p="4">
-        {children}
-      </Box> */}
     </Box>
   );
 }
@@ -73,6 +81,7 @@ interface SidebarProps extends BoxProps {
 }
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
+  const categoriesLink = CategoriesLinkItems();
   return (
     <Box
       bg={useColorModeValue("white", "gray.900")}
@@ -84,14 +93,14 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        {/* <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          Logo
-        </Text> */}
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
-      {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
-          {link.name}
+
+      <NavItem icon={LinkIcons[0]?.icon}>Popular</NavItem>
+
+      {categoriesLink?.map((link, index) => (
+        <NavItem key={link._id} icon={LinkIcons[index + 1]?.icon}>
+          {link.title}
         </NavItem>
       ))}
     </Box>
@@ -148,7 +157,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
       px={{ base: 4, md: 24 }}
       height="20"
       alignItems="center"
-      bg={useColorModeValue("white", "gray.900")}
+      bg={useColorModeValue("#F7FAFC", "gray.900")}
       borderBottomWidth="1px"
       borderBottomColor={useColorModeValue("gray.200", "gray.700")}
       justifyContent="flex-start"
@@ -160,10 +169,6 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         aria-label="open menu"
         icon={<FiMenu />}
       />
-
-      {/* <Text fontSize="2xl" ml="8" fontFamily="monospace" fontWeight="bold">
-        Logo
-      </Text> */}
     </Flex>
   );
 };

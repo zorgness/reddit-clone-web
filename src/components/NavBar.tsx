@@ -93,7 +93,7 @@ export const NavBar: React.FC<NavBarProps> = () => {
         p={0}
       >
         <Box className="sidebar-container-desktop">
-          <CategoryNavBar children={undefined} />
+          <CategoryNavBar />
         </Box>
         <Flex flex={1} m="auto" align="center" maxW={800}>
           <Link to={"/"}>
