@@ -9,7 +9,6 @@ import { TextField } from "../components/TextField";
 import { useCategoryQuery, useCreatePostMutation } from "../generated/graphql";
 import { useIsAuth } from "../hooks/useIsAuth";
 import { createUrqlClient } from "../utils/createUrqlClient";
-import { data as options } from "./../data/categoryData";
 
 const CreatePost: React.FC<{}> = () => {
   const navigate = useNavigate();
@@ -18,14 +17,13 @@ const CreatePost: React.FC<{}> = () => {
   const [, createPost] = useCreatePostMutation();
   const [selectedOption, setSelectedOption] = React.useState("");
 
-  const handleChange = (e: any) => {
-    console.log(e.target.value);
-    setSelectedOption(e.target.value);
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedOption(e.currentTarget.value);
   };
 
   const categories = useCategoryQuery();
 
-  console.log(categories[0].data?.category);
+  const categoriesOptions = categories[0].data?.category;
 
   return (
     <Layout variant="small">
@@ -63,10 +61,10 @@ const CreatePost: React.FC<{}> = () => {
                   <option value="" disabled>
                     Select an option
                   </option>
-                  {options.map((option) => {
+                  {categoriesOptions?.map(({ _id, title }) => {
                     return (
-                      <option key={option.id} value={option.value}>
-                        {option.label}
+                      <option key={_id} value={_id}>
+                        {title}
                       </option>
                     );
                   })}
