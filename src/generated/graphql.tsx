@@ -132,7 +132,6 @@ export type QueryPostArgs = {
 
 
 export type QueryPostsArgs = {
-  categoryId?: InputMaybe<Scalars['Int']>;
   cursor?: InputMaybe<Scalars['String']>;
   limit: Scalars['Int'];
 };
@@ -251,7 +250,6 @@ export type PostQueryVariables = Exact<{
 export type PostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', _id: number, createdAt: string, updatedAt: string, title: string, points: number, text: string, voteStatus?: number | null, creatorId: number, categoryId: number } | null };
 
 export type PostsQueryVariables = Exact<{
-  categoryId: Scalars['Int'];
   limit: Scalars['Int'];
   cursor?: InputMaybe<Scalars['String']>;
 }>;
@@ -447,8 +445,8 @@ export function usePostQuery(options: Omit<Urql.UseQueryArgs<PostQueryVariables>
   return Urql.useQuery<PostQuery, PostQueryVariables>({ query: PostDocument, ...options });
 };
 export const PostsDocument = gql`
-    query Posts($categoryId: Int!, $limit: Int!, $cursor: String) {
-  posts(categoryId: $categoryId, limit: $limit, cursor: $cursor) {
+    query Posts($limit: Int!, $cursor: String) {
+  posts(limit: $limit, cursor: $cursor) {
     hasMore
     posts {
       ...PostSnippet

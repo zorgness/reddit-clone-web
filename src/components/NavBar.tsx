@@ -40,8 +40,8 @@ export const NavBar: React.FC<NavBarProps> = () => {
     body = (
       <>
         <Button
-          colorScheme="orange"
-          bg="#ff4500"
+          colorScheme="blue"
+          bg="#0079D3"
           color="white"
           borderRadius="full"
         >

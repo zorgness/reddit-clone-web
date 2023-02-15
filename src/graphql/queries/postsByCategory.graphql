@@ -1,0 +1,7 @@
+query PostsByCategory($categoryId: Int!) {
+  postsByCategory(categoryId: $categoryId) {
+    posts {
+      ...PostSnippet
+    }
+  }
+}

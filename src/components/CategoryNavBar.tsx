@@ -23,9 +23,9 @@ import {
   FiStar,
   FiTrendingUp,
 } from "react-icons/fi";
-import { NavigationContext } from "../context/CategoryContext";
 import { useCategoryQuery } from "../generated/graphql";
 import { Link } from "react-router-dom";
+import { capitalize } from "../utils/capitalize";
 
 interface LinkItemProps {
   icon: IconType;
@@ -79,15 +79,7 @@ interface SidebarProps extends BoxProps {
 }
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
-  const categoriesLink = CategoriesLinkItems();
-  const { setCategory } = useContext(NavigationContext);
-  const handleClick = (_id: number) => {
-    setCategory(_id);
-    setTimeout(() => {
-      onClose();
-      window.location.reload();
-    }, 0o300);
-  };
+  const categoriesLink = CategoriesLinkItems()?.sort((a, b) => a._id - b._id);
 
   return (
     <Box
@@ -103,19 +95,13 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       <Link to="/">
-        <NavItem icon={LinkIcons[0]?.icon} onClick={() => handleClick(0)}>
-          Popular
-        </NavItem>
+        <NavItem icon={LinkIcons[0]?.icon}>Popular</NavItem>
       </Link>
 
       {categoriesLink?.map((link, index) => (
-        <Link to={`/${link.title}/${link._id}`}>
-          <NavItem
-            key={link._id}
-            icon={LinkIcons[index + 1]?.icon}
-            onClick={() => handleClick(link._id)}
-          >
-            {link.title}
+        <Link to={`/${link.title}/${link._id}`} key={link._id}>
+          <NavItem icon={LinkIcons[index + 1]?.icon}>
+            {capitalize(link.title)}
           </NavItem>
         </Link>
       ))}

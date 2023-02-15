@@ -1,27 +1,25 @@
-import React, { useState, useContext } from "react";
 import { Box, Button, Flex, Heading, Stack, Text } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { EditDeletePostButton } from "../components/EditDeletePostButton";
 import { Layout } from "../components/Layout/Layout";
 import { UpdootSection } from "../components/UpdootSection";
 import { usePostsQuery } from "../generated/graphql";
 import { createUrqlClient } from "../utils/createUrqlClient";
-import { Link } from "react-router-dom";
-import { EditDeletePostButton } from "../components/EditDeletePostButton";
-import { NavigationContext } from "../context/CategoryContext";
 
 interface HomeProps {}
 
 const Home: React.FC<HomeProps> = () => {
-  const { currentCategoryId } = useContext(NavigationContext);
-
   const [variables, setVariables] = useState({
     limit: 15,
     cursor: null as null | string,
-    categoryId: currentCategoryId,
   });
   const [{ data, fetching, error }] = usePostsQuery({
     variables,
   });
+
+  console.log(data?.posts);
 
   if (!fetching && !data) {
     return (
@@ -34,7 +32,10 @@ const Home: React.FC<HomeProps> = () => {
 
   return (
     <Layout>
-      <div>Popular</div>
+      <Box my={4}>
+        <Heading fontSize="xl">Popular</Heading>
+        <Text color="gray">on mini reddit</Text>
+      </Box>
       {!data ? (
         <div>...loading</div>
       ) : (
@@ -75,7 +76,6 @@ const Home: React.FC<HomeProps> = () => {
               setVariables({
                 limit: variables?.limit,
                 cursor: data.posts.posts[data.posts.posts.length - 1].createdAt,
-                categoryId: currentCategoryId,
               });
             }}
             isLoading={fetching}

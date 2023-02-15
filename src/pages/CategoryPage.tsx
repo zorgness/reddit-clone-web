@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { createUrqlClient } from "../utils/createUrqlClient";
 import { Link, useParams } from "react-router-dom";
 import { withUrqlClient } from "next-urql";
@@ -6,23 +6,25 @@ import { Layout } from "../components/Layout/Layout";
 import { Stack, Flex, Heading, Button, Box, Text } from "@chakra-ui/react";
 import { EditDeletePostButton } from "../components/EditDeletePostButton";
 import { UpdootSection } from "../components/UpdootSection";
-import { NavigationContext } from "../context/CategoryContext";
 import { usePostsQuery } from "../generated/graphql";
+import { capitalize } from "../utils/capitalize";
 
 interface CategoryPageProps {}
 
-const CategoryPage: React.FC<CategoryPageProps> = ({}) => {
+const CategoryPage: React.FC<CategoryPageProps> = () => {
   const params = useParams();
-  // const { currentCategoryId } = useContext(NavigationContext);
 
   const [variables, setVariables] = useState({
     limit: 15,
     cursor: null as null | string,
-    categoryId: parseInt(params?.id as string),
   });
   const [{ data, fetching, error }] = usePostsQuery({
     variables,
   });
+
+  const toDisplay = data?.posts.posts.filter(
+    (el) => el.category.title === params.category
+  );
 
   if (!fetching && !data) {
     return (
@@ -35,12 +37,15 @@ const CategoryPage: React.FC<CategoryPageProps> = ({}) => {
 
   return (
     <Layout>
-      <div>{params.category}</div>
+      <Box my={4}>
+        <Heading fontSize="xl">{capitalize(params.category as string)}</Heading>
+        <Text color="gray">on mini reddit</Text>
+      </Box>
       {!data ? (
         <div>...loading</div>
       ) : (
         <Stack spacing={8}>
-          {data!.posts.posts.map(
+          {toDisplay?.map(
             (
               { _id, title, textSnippet, creatorId, creator, category },
               index
@@ -76,7 +81,6 @@ const CategoryPage: React.FC<CategoryPageProps> = ({}) => {
               setVariables({
                 limit: variables?.limit,
                 cursor: data.posts.posts[data.posts.posts.length - 1].createdAt,
-                categoryId: parseInt(params?.id as string),
               });
             }}
             isLoading={fetching}
