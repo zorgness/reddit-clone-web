@@ -6,7 +6,7 @@ import { Layout } from "../components/Layout/Layout";
 import { Stack, Flex, Heading, Button, Box, Text } from "@chakra-ui/react";
 import { EditDeletePostButton } from "../components/EditDeletePostButton";
 import { UpdootSection } from "../components/UpdootSection";
-import { usePostsQuery } from "../generated/graphql";
+import { usePostsByCategoryQuery, usePostsQuery } from "../generated/graphql";
 import { capitalize } from "../utils/capitalize";
 
 interface CategoryPageProps {}
@@ -14,17 +14,9 @@ interface CategoryPageProps {}
 const CategoryPage: React.FC<CategoryPageProps> = () => {
   const params = useParams();
 
-  const [variables, setVariables] = useState({
-    limit: 15,
-    cursor: null as null | string,
+  const [{ data, fetching, error }] = usePostsByCategoryQuery({
+    variables: { categoryId: parseInt(params.id as string) },
   });
-  const [{ data, fetching, error }] = usePostsQuery({
-    variables,
-  });
-
-  const toDisplay = data?.posts.posts.filter(
-    (el) => el.category.title === params.category
-  );
 
   if (!fetching && !data) {
     return (
@@ -41,18 +33,18 @@ const CategoryPage: React.FC<CategoryPageProps> = () => {
         <Heading fontSize="xl">{capitalize(params.category as string)}</Heading>
         <Text color="gray">on mini reddit</Text>
       </Box>
-      {!data ? (
+      {!data && fetching ? (
         <div>...loading</div>
       ) : (
         <Stack spacing={8}>
-          {toDisplay?.map(
+          {data!.postsByCategory.posts.map(
             (
               { _id, title, textSnippet, creatorId, creator, category },
               index
             ) => {
               return (
                 <Flex key={_id} p={5} shadow="md" borderWidth="1px">
-                  <UpdootSection post={data!.posts.posts[index]} />
+                  <UpdootSection post={data!.postsByCategory.posts[index]} />
                   <Box flex={1}>
                     <Link to={`/post/${_id}`}>
                       <Heading fontSize="xl">{title}</Heading>
@@ -74,7 +66,7 @@ const CategoryPage: React.FC<CategoryPageProps> = () => {
           )}
         </Stack>
       )}
-      {data && data.posts.hasMore ? (
+      {/* {data && data.posts.hasMore ? (
         <Flex>
           <Button
             onClick={() => {
@@ -90,7 +82,7 @@ const CategoryPage: React.FC<CategoryPageProps> = () => {
             load more
           </Button>
         </Flex>
-      ) : null}
+      ) : null} */}
     </Layout>
   );
 };

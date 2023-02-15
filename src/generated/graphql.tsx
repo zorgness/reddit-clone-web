@@ -23,6 +23,11 @@ export type Category = {
   updatedAt: Scalars['String'];
 };
 
+export type CategoryPosts = {
+  __typename?: 'CategoryPosts';
+  posts: Array<Post>;
+};
+
 export type FieldError = {
   __typename?: 'FieldError';
   field: Scalars['String'];
@@ -123,6 +128,7 @@ export type Query = {
   me?: Maybe<User>;
   post?: Maybe<Post>;
   posts: PaginatedPosts;
+  postsByCategory: CategoryPosts;
 };
 
 
@@ -134,6 +140,11 @@ export type QueryPostArgs = {
 export type QueryPostsArgs = {
   cursor?: InputMaybe<Scalars['String']>;
   limit: Scalars['Int'];
+};
+
+
+export type QueryPostsByCategoryArgs = {
+  categoryId: Scalars['Int'];
 };
 
 export type User = {
@@ -256,6 +267,13 @@ export type PostsQueryVariables = Exact<{
 
 
 export type PostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', hasMore: boolean, posts: Array<{ __typename?: 'Post', _id: number, createdAt: string, updatedAt: string, title: string, textSnippet: string, voteStatus?: number | null, points: number, creatorId: number, categoryId: number, creator: { __typename?: 'User', _id: number, username: string }, category: { __typename?: 'Category', _id: number, title: string } }> } };
+
+export type PostsByCategoryQueryVariables = Exact<{
+  categoryId: Scalars['Int'];
+}>;
+
+
+export type PostsByCategoryQuery = { __typename?: 'Query', postsByCategory: { __typename?: 'CategoryPosts', posts: Array<{ __typename?: 'Post', _id: number, createdAt: string, updatedAt: string, title: string, textSnippet: string, voteStatus?: number | null, points: number, creatorId: number, categoryId: number, creator: { __typename?: 'User', _id: number, username: string }, category: { __typename?: 'Category', _id: number, title: string } }> } };
 
 export const PostSnippetFragmentDoc = gql`
     fragment PostSnippet on Post {
@@ -457,4 +475,17 @@ export const PostsDocument = gql`
 
 export function usePostsQuery(options: Omit<Urql.UseQueryArgs<PostsQueryVariables>, 'query'>) {
   return Urql.useQuery<PostsQuery, PostsQueryVariables>({ query: PostsDocument, ...options });
+};
+export const PostsByCategoryDocument = gql`
+    query PostsByCategory($categoryId: Int!) {
+  postsByCategory(categoryId: $categoryId) {
+    posts {
+      ...PostSnippet
+    }
+  }
+}
+    ${PostSnippetFragmentDoc}`;
+
+export function usePostsByCategoryQuery(options: Omit<Urql.UseQueryArgs<PostsByCategoryQueryVariables>, 'query'>) {
+  return Urql.useQuery<PostsByCategoryQuery, PostsByCategoryQueryVariables>({ query: PostsByCategoryDocument, ...options });
 };
