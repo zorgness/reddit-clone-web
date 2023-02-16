@@ -1,12 +1,13 @@
-import { Box, Button, FormControl } from "@chakra-ui/react";
+import { Box, Button, FormControl, Select } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { withUrqlClient } from "next-urql";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { InputField } from "../components/InputField";
 import { Layout } from "../components/Layout/Layout";
+import { SelectField } from "../components/SelectField";
 import { TextField } from "../components/TextField";
-import { useCreatePostMutation } from "../generated/graphql";
+import { useCategoryQuery, useCreatePostMutation } from "../generated/graphql";
 import { useIsAuth } from "../hooks/useIsAuth";
 import { createUrqlClient } from "../utils/createUrqlClient";
 
@@ -15,6 +16,15 @@ const CreatePost: React.FC<{}> = () => {
 
   useIsAuth();
   const [, createPost] = useCreatePostMutation();
+  const [selectedOption, setSelectedOption] = React.useState("");
+
+  const handleChange = (e: any) => {
+    setSelectedOption(e.currentTarget.value);
+  };
+
+  // const categories = useCategoryQuery();
+
+  // const categoriesOptions = categories[0].data?.category;
 
   return (
     <Layout variant="small">
@@ -22,8 +32,14 @@ const CreatePost: React.FC<{}> = () => {
         <h1>Create Post</h1>
       </Box>
       <Formik
-        initialValues={{ title: "", text: "" }}
+        initialValues={{
+          title: "",
+          text: "",
+          categoryId: 0,
+        }}
         onSubmit={async (values) => {
+          values.categoryId = parseInt(selectedOption);
+
           const response = await createPost({ input: values });
 
           if (response.error === undefined) {
@@ -39,6 +55,22 @@ const CreatePost: React.FC<{}> = () => {
               </Box>
               <Box mt={4}>
                 <TextField name="text" placeholder="text..." label="Text" />
+              </Box>
+
+              <Box mt={4}>
+                {/* <Select value={selectedOption} onChange={handleChange}>
+                  <option value="" disabled>
+                    Select an option
+                  </option>
+                  {categoriesOptions?.map(({ _id, title }) => {
+                    return (
+                      <option key={_id} value={_id}>
+                        {title}
+                      </option>
+                    );
+                  })}
+                </Select> */}
+                <SelectField value={selectedOption} onChange={handleChange} />
               </Box>
 
               <Button

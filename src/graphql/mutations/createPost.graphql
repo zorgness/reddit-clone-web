@@ -6,5 +6,6 @@ mutation CreatePost($input: PostInput!) {
     title
     text
     creatorId
+    categoryId
   }
 }

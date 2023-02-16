@@ -1,25 +1,22 @@
-import { Box, Button, Flex, Heading, Stack, Text } from "@chakra-ui/react";
-import { withUrqlClient } from "next-urql";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { EditDeletePostButton } from "../components/EditDeletePostButton";
-import { Layout } from "../components/Layout/Layout";
-import { UpdootSection } from "../components/UpdootSection";
-import { usePostsQuery } from "../generated/graphql";
 import { createUrqlClient } from "../utils/createUrqlClient";
+import { Link, useParams } from "react-router-dom";
+import { withUrqlClient } from "next-urql";
+import { Layout } from "../components/Layout/Layout";
+import { Stack, Flex, Heading, Button, Box, Text } from "@chakra-ui/react";
+import { EditDeletePostButton } from "../components/EditDeletePostButton";
+import { UpdootSection } from "../components/UpdootSection";
+import { usePostsByCategoryQuery, usePostsQuery } from "../generated/graphql";
+import { capitalize } from "../utils/capitalize";
 
-interface HomeProps {}
+interface CategoryPageProps {}
 
-const Home: React.FC<HomeProps> = () => {
-  const [variables, setVariables] = useState({
-    limit: 15,
-    cursor: null as null | string,
+const CategoryPage: React.FC<CategoryPageProps> = () => {
+  const params = useParams();
+
+  const [{ data, fetching, error }] = usePostsByCategoryQuery({
+    variables: { categoryId: parseInt(params.id as string) },
   });
-  const [{ data, fetching, error }] = usePostsQuery({
-    variables,
-  });
-
-  console.log(data?.posts);
 
   if (!fetching && !data) {
     return (
@@ -33,21 +30,21 @@ const Home: React.FC<HomeProps> = () => {
   return (
     <Layout>
       <Box my={4}>
-        <Heading fontSize="xl">Popular</Heading>
+        <Heading fontSize="xl">{capitalize(params.category as string)}</Heading>
         <Text color="gray">on mini reddit</Text>
       </Box>
-      {!data ? (
+      {!data && fetching ? (
         <div>...loading</div>
       ) : (
         <Stack spacing={8}>
-          {data!.posts.posts.map(
+          {data!.postsByCategory.posts.map(
             (
               { _id, title, textSnippet, creatorId, creator, category },
               index
             ) => {
               return (
                 <Flex key={_id} p={5} shadow="md" borderWidth="1px">
-                  <UpdootSection post={data!.posts.posts[index]} />
+                  <UpdootSection post={data!.postsByCategory.posts[index]} />
                   <Box flex={1}>
                     <Link to={`/post/${_id}`}>
                       <Heading fontSize="xl">{title}</Heading>
@@ -69,7 +66,7 @@ const Home: React.FC<HomeProps> = () => {
           )}
         </Stack>
       )}
-      {data && data.posts.hasMore ? (
+      {/* {data && data.posts.hasMore ? (
         <Flex>
           <Button
             onClick={() => {
@@ -85,12 +82,9 @@ const Home: React.FC<HomeProps> = () => {
             load more
           </Button>
         </Flex>
-      ) : null}
+      ) : null} */}
     </Layout>
   );
 };
 
-// server side rendering is important for pages with updates, for seo google,
-// no need on static pages as login or register
-
-export default withUrqlClient(createUrqlClient, { ssr: true })(Home);
+export default withUrqlClient(createUrqlClient, { ssr: true })(CategoryPage);

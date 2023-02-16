@@ -15,6 +15,19 @@ export type Scalars = {
   Float: number;
 };
 
+export type Category = {
+  __typename?: 'Category';
+  _id: Scalars['Int'];
+  createdAt: Scalars['String'];
+  title: Scalars['String'];
+  updatedAt: Scalars['String'];
+};
+
+export type CategoryPosts = {
+  __typename?: 'CategoryPosts';
+  posts: Array<Post>;
+};
+
 export type FieldError = {
   __typename?: 'FieldError';
   field: Scalars['String'];
@@ -69,6 +82,7 @@ export type MutationRegisterArgs = {
 
 export type MutationUpdatePostArgs = {
   _id: Scalars['Float'];
+  categoryId?: InputMaybe<Scalars['Float']>;
   text?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
 };
@@ -88,6 +102,8 @@ export type PaginatedPosts = {
 export type Post = {
   __typename?: 'Post';
   _id: Scalars['Int'];
+  category: Category;
+  categoryId: Scalars['Float'];
   createdAt: Scalars['String'];
   creator: User;
   creatorId: Scalars['Float'];
@@ -100,16 +116,19 @@ export type Post = {
 };
 
 export type PostInput = {
+  categoryId: Scalars['Float'];
   text: Scalars['String'];
   title: Scalars['String'];
 };
 
 export type Query = {
   __typename?: 'Query';
+  category?: Maybe<Array<Category>>;
   hello: Scalars['String'];
   me?: Maybe<User>;
   post?: Maybe<Post>;
   posts: PaginatedPosts;
+  postsByCategory: CategoryPosts;
 };
 
 
@@ -121,6 +140,11 @@ export type QueryPostArgs = {
 export type QueryPostsArgs = {
   cursor?: InputMaybe<Scalars['String']>;
   limit: Scalars['Int'];
+};
+
+
+export type QueryPostsByCategoryArgs = {
+  categoryId: Scalars['Int'];
 };
 
 export type User = {
@@ -144,7 +168,7 @@ export type UsernamePasswordInput = {
   username: Scalars['String'];
 };
 
-export type PostSnippetFragment = { __typename?: 'Post', _id: number, createdAt: string, updatedAt: string, title: string, textSnippet: string, voteStatus?: number | null, points: number, creatorId: number, creator: { __typename?: 'User', _id: number, username: string } };
+export type PostSnippetFragment = { __typename?: 'Post', _id: number, createdAt: string, updatedAt: string, title: string, textSnippet: string, voteStatus?: number | null, points: number, creatorId: number, categoryId: number, creator: { __typename?: 'User', _id: number, username: string }, category: { __typename?: 'Category', _id: number, title: string } };
 
 export type RegularErrorFragment = { __typename?: 'FieldError', field: string, message: string };
 
@@ -165,7 +189,7 @@ export type CreatePostMutationVariables = Exact<{
 }>;
 
 
-export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', _id: number, createdAt: string, updatedAt: string, title: string, text: string, creatorId: number } };
+export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', _id: number, createdAt: string, updatedAt: string, title: string, text: string, creatorId: number, categoryId: number } };
 
 export type DeletePostMutationVariables = Exact<{
   _id: Scalars['Float'];
@@ -205,10 +229,11 @@ export type UpdatePostMutationVariables = Exact<{
   _id: Scalars['Float'];
   title: Scalars['String'];
   text: Scalars['String'];
+  categoryId: Scalars['Float'];
 }>;
 
 
-export type UpdatePostMutation = { __typename?: 'Mutation', updatePost?: { __typename?: 'Post', _id: number, title: string, text: string, textSnippet: string } | null };
+export type UpdatePostMutation = { __typename?: 'Mutation', updatePost?: { __typename?: 'Post', _id: number, title: string, text: string, textSnippet: string, categoryId: number } | null };
 
 export type VoteMutationVariables = Exact<{
   value: Scalars['Int'];
@@ -217,6 +242,11 @@ export type VoteMutationVariables = Exact<{
 
 
 export type VoteMutation = { __typename?: 'Mutation', vote: boolean };
+
+export type CategoryQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CategoryQuery = { __typename?: 'Query', category?: Array<{ __typename?: 'Category', _id: number, title: string }> | null };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -228,7 +258,7 @@ export type PostQueryVariables = Exact<{
 }>;
 
 
-export type PostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', _id: number, createdAt: string, updatedAt: string, title: string, points: number, text: string, voteStatus?: number | null, creatorId: number } | null };
+export type PostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', _id: number, createdAt: string, updatedAt: string, title: string, points: number, text: string, voteStatus?: number | null, creatorId: number, categoryId: number } | null };
 
 export type PostsQueryVariables = Exact<{
   limit: Scalars['Int'];
@@ -236,7 +266,14 @@ export type PostsQueryVariables = Exact<{
 }>;
 
 
-export type PostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', hasMore: boolean, posts: Array<{ __typename?: 'Post', _id: number, createdAt: string, updatedAt: string, title: string, textSnippet: string, voteStatus?: number | null, points: number, creatorId: number, creator: { __typename?: 'User', _id: number, username: string } }> } };
+export type PostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', hasMore: boolean, posts: Array<{ __typename?: 'Post', _id: number, createdAt: string, updatedAt: string, title: string, textSnippet: string, voteStatus?: number | null, points: number, creatorId: number, categoryId: number, creator: { __typename?: 'User', _id: number, username: string }, category: { __typename?: 'Category', _id: number, title: string } }> } };
+
+export type PostsByCategoryQueryVariables = Exact<{
+  categoryId: Scalars['Int'];
+}>;
+
+
+export type PostsByCategoryQuery = { __typename?: 'Query', postsByCategory: { __typename?: 'CategoryPosts', posts: Array<{ __typename?: 'Post', _id: number, createdAt: string, updatedAt: string, title: string, textSnippet: string, voteStatus?: number | null, points: number, creatorId: number, categoryId: number, creator: { __typename?: 'User', _id: number, username: string }, category: { __typename?: 'Category', _id: number, title: string } }> } };
 
 export const PostSnippetFragmentDoc = gql`
     fragment PostSnippet on Post {
@@ -248,9 +285,14 @@ export const PostSnippetFragmentDoc = gql`
   voteStatus
   points
   creatorId
+  categoryId
   creator {
     _id
     username
+  }
+  category {
+    _id
+    title
   }
 }
     `;
@@ -297,6 +339,7 @@ export const CreatePostDocument = gql`
     title
     text
     creatorId
+    categoryId
   }
 }
     `;
@@ -354,12 +397,13 @@ export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
 };
 export const UpdatePostDocument = gql`
-    mutation UpdatePost($_id: Float!, $title: String!, $text: String!) {
-  updatePost(_id: $_id, title: $title, text: $text) {
+    mutation UpdatePost($_id: Float!, $title: String!, $text: String!, $categoryId: Float!) {
+  updatePost(_id: $_id, title: $title, text: $text, categoryId: $categoryId) {
     _id
     title
     text
     textSnippet
+    categoryId
   }
 }
     `;
@@ -375,6 +419,18 @@ export const VoteDocument = gql`
 
 export function useVoteMutation() {
   return Urql.useMutation<VoteMutation, VoteMutationVariables>(VoteDocument);
+};
+export const CategoryDocument = gql`
+    query Category {
+  category {
+    _id
+    title
+  }
+}
+    `;
+
+export function useCategoryQuery(options?: Omit<Urql.UseQueryArgs<CategoryQueryVariables>, 'query'>) {
+  return Urql.useQuery<CategoryQuery, CategoryQueryVariables>({ query: CategoryDocument, ...options });
 };
 export const MeDocument = gql`
     query Me {
@@ -398,6 +454,7 @@ export const PostDocument = gql`
     text
     voteStatus
     creatorId
+    categoryId
   }
 }
     `;
@@ -418,4 +475,17 @@ export const PostsDocument = gql`
 
 export function usePostsQuery(options: Omit<Urql.UseQueryArgs<PostsQueryVariables>, 'query'>) {
   return Urql.useQuery<PostsQuery, PostsQueryVariables>({ query: PostsDocument, ...options });
+};
+export const PostsByCategoryDocument = gql`
+    query PostsByCategory($categoryId: Int!) {
+  postsByCategory(categoryId: $categoryId) {
+    posts {
+      ...PostSnippet
+    }
+  }
+}
+    ${PostSnippetFragmentDoc}`;
+
+export function usePostsByCategoryQuery(options: Omit<Urql.UseQueryArgs<PostsByCategoryQueryVariables>, 'query'>) {
+  return Urql.useQuery<PostsByCategoryQuery, PostsByCategoryQueryVariables>({ query: PostsByCategoryDocument, ...options });
 };
