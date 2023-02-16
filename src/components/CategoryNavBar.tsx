@@ -100,7 +100,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
 
       {categoriesLink?.map((link, index) => (
         <Link to={`/${link.title}/${link._id}`} key={link._id}>
-          <NavItem icon={LinkIcons[index + 1]?.icon}>
+          <NavItem icon={LinkIcons[index + 1]?.icon} onClick={onClose}>
             {capitalize(link.title)}
           </NavItem>
         </Link>

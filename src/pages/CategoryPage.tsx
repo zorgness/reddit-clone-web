@@ -27,9 +27,11 @@ const CategoryPage: React.FC<CategoryPageProps> = () => {
     );
   }
 
+  // console.log(data?.postsByCategory);
+
   return (
     <Layout>
-      <Box my={4}>
+      <Box my={4} className="category-title">
         <Heading fontSize="xl">{capitalize(params.category as string)}</Heading>
         <Text color="gray">on mini reddit</Text>
       </Box>
@@ -49,7 +51,7 @@ const CategoryPage: React.FC<CategoryPageProps> = () => {
                     <Link to={`/post/${_id}`}>
                       <Heading fontSize="xl">{title}</Heading>
                     </Link>
-                    <Text>category: {category.title}</Text>
+
                     <Text>posted by {creator.username}</Text>
                     <Flex align="center">
                       <Text flex={1} mt={4}>

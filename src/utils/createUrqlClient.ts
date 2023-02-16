@@ -69,12 +69,52 @@ const cursorPagination = (): Resolver => {
   };
 };
 
+const categoryPosts = (): Resolver => {
+  return (_parent, fieldArgs, cache, info) => {
+    const { parentKey: entityKey, fieldName } = info;
+    const allFields = cache.inspectFields(entityKey);
+
+    const fieldInfos = allFields.filter((info) => info.fieldName === fieldName);
+    const size = fieldInfos.length;
+    if (size === 0) {
+      return undefined;
+    }
+
+    const fieldKey = `${fieldName}(${stringifyVariables(fieldArgs)})`;
+    const isItInTheCache = cache.resolve(
+      cache.resolveFieldByKey(entityKey, fieldKey) as string,
+      "postsByCategory"
+    );
+    info.partial = !isItInTheCache;
+
+    const results: string[] = [];
+    fieldInfos.forEach((fi) => {
+      const key = cache.resolveFieldByKey(entityKey, fi.fieldKey) as string;
+
+      const data = cache.resolve(key, "posts") as string[];
+      results.push(...data);
+    });
+
+    return {
+      __typename: "CategoryPosts",
+
+      posts: results,
+    };
+  };
+};
+
 const invalidateAllPosts = (cache: Cache) => {
   const allFields = cache.inspectFields("Query");
 
   const fieldInfos = allFields.filter((info) => info.fieldName === "posts");
+  const categoryInfos = allFields.filter(
+    (info) => info.fieldName === "postsByCategory"
+  );
   fieldInfos.forEach((info) => {
     cache.invalidate("Query", "posts", info.arguments || {});
+  });
+  categoryInfos.forEach((info) => {
+    cache.invalidate("Query", "postsByCategory", info.arguments || {});
   });
 };
 
@@ -89,10 +129,16 @@ export const createUrqlClient = (ssrExchange: any) => {
       cacheExchange({
         keys: {
           PaginatedPosts: () => null,
+          CategoryPosts: () => null,
         },
         resolvers: {
           Query: {
             posts: cursorPagination(),
+            // postsByCategory: (_, args) => ({
+            //   __typename: "CategoryPosts",
+            //   id: args.categoryId,
+            // }),
+            postsByCategory: categoryPosts(),
           },
         },
         updates: {

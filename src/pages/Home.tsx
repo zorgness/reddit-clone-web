@@ -19,7 +19,7 @@ const Home: React.FC<HomeProps> = () => {
     variables,
   });
 
-  console.log(data?.posts);
+  // console.log(data?.posts);
 
   if (!fetching && !data) {
     return (
@@ -32,7 +32,7 @@ const Home: React.FC<HomeProps> = () => {
 
   return (
     <Layout>
-      <Box my={4}>
+      <Box my={4} className="category-title">
         <Heading fontSize="xl">Popular</Heading>
         <Text color="gray">on mini reddit</Text>
       </Box>
@@ -49,10 +49,12 @@ const Home: React.FC<HomeProps> = () => {
                 <Flex key={_id} p={5} shadow="md" borderWidth="1px">
                   <UpdootSection post={data!.posts.posts[index]} />
                   <Box flex={1}>
-                    <Link to={`/post/${_id}`}>
-                      <Heading fontSize="xl">{title}</Heading>
-                    </Link>
-                    <Text>category: {category.title}</Text>
+                    <Flex align="baseline" justifyContent={"space-between"}>
+                      <Link to={`/post/${_id}`}>
+                        <Heading fontSize="xl">{title}</Heading>
+                      </Link>
+                      <Text color={"gray"}>{category.title}</Text>
+                    </Flex>
                     <Text>posted by {creator.username}</Text>
                     <Flex align="center">
                       <Text flex={1} mt={4}>
