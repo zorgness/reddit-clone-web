@@ -1,5 +1,6 @@
 import { gql } from "@urql/core";
 import { Cache, cacheExchange, Resolver } from "@urql/exchange-graphcache";
+import { FiShield } from "react-icons/fi";
 import {
   dedupExchange,
   Exchange,
@@ -75,7 +76,11 @@ const categoryPosts = (): Resolver => {
     const allFields = cache.inspectFields(entityKey);
 
     const fieldInfos = allFields.filter((info) => info.fieldName === fieldName);
+
+    console.log(fieldInfos);
+
     const size = fieldInfos.length;
+
     if (size === 0) {
       return undefined;
     }
@@ -88,10 +93,11 @@ const categoryPosts = (): Resolver => {
     info.partial = !isItInTheCache;
 
     const results: string[] = [];
+
     fieldInfos.forEach((fi) => {
       const key = cache.resolveFieldByKey(entityKey, fi.fieldKey) as string;
-
       const data = cache.resolve(key, "posts") as string[];
+
       results.push(...data);
     });
 

@@ -51,7 +51,7 @@ const CategoryPage: React.FC<CategoryPageProps> = () => {
                     <Link to={`/post/${_id}`}>
                       <Heading fontSize="xl">{title}</Heading>
                     </Link>
-
+                    <Text color={"gray"}>{category.title}</Text>
                     <Text>posted by {creator.username}</Text>
                     <Flex align="center">
                       <Text flex={1} mt={4}>
