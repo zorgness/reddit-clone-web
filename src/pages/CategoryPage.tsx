@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import { createUrqlClient } from "../utils/createUrqlClient";
-import { Link, useParams } from "react-router-dom";
+import { Box, Flex, Heading, Stack, Text } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
-import { Layout } from "../components/Layout/Layout";
-import { Stack, Flex, Heading, Button, Box, Text } from "@chakra-ui/react";
+import React from "react";
+import { Link, useParams } from "react-router-dom";
 import { EditDeletePostButton } from "../components/EditDeletePostButton";
+import { Layout } from "../components/Layout/Layout";
 import { UpdootSection } from "../components/UpdootSection";
-import { usePostsByCategoryQuery, usePostsQuery } from "../generated/graphql";
+import { usePostsByCategoryQuery } from "../generated/graphql";
 import { capitalize } from "../utils/capitalize";
+import { createUrqlClient } from "../utils/createUrqlClient";
 
 interface CategoryPageProps {}
 

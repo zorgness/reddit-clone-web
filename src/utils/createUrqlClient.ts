@@ -1,6 +1,5 @@
 import { gql } from "@urql/core";
 import { Cache, cacheExchange, Resolver } from "@urql/exchange-graphcache";
-import { FiShield } from "react-icons/fi";
 import {
   dedupExchange,
   Exchange,
@@ -74,10 +73,11 @@ const categoryPosts = (): Resolver => {
   return (_parent, fieldArgs, cache, info) => {
     const { parentKey: entityKey, fieldName } = info;
     const allFields = cache.inspectFields(entityKey);
-
-    const fieldInfos = allFields.filter((info) => info.fieldName === fieldName);
-
-    console.log(fieldInfos);
+    console.log(fieldArgs);
+    console.log(typeof info.variables);
+    const fieldInfos = allFields.filter(
+      (info) => info.arguments?.categoryId === fieldArgs.categoryId
+    );
 
     const size = fieldInfos.length;
 
