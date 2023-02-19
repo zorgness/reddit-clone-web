@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Stack, Text } from "@chakra-ui/react";
+import { Box, Flex, Heading, Icon, Stack, Text } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
@@ -8,6 +8,7 @@ import { UpdootSection } from "../components/UpdootSection";
 import { usePostsByCategoryQuery } from "../generated/graphql";
 import { capitalize } from "../utils/capitalize";
 import { createUrqlClient } from "../utils/createUrqlClient";
+import { FiMessageSquare } from "react-icons/fi";
 
 interface CategoryPageProps {}
 
@@ -27,8 +28,6 @@ const CategoryPage: React.FC<CategoryPageProps> = () => {
     );
   }
 
-  // console.log(data?.postsByCategory);
-
   return (
     <Layout>
       <Box my={4} className="category-title">
@@ -46,7 +45,34 @@ const CategoryPage: React.FC<CategoryPageProps> = () => {
             ) => {
               return (
                 <Flex key={_id} p={5} shadow="md" borderWidth="1px">
-                  <UpdootSection post={data!.postsByCategory.posts[index]} />
+                  <Flex flexDirection={"column"} align={"flex-start"}>
+                    <UpdootSection post={data!.postsByCategory.posts[index]} />
+
+                    <Flex
+                      align="center"
+                      justifyContent={"center"}
+                      mt="2"
+                      role="group"
+                      color="grey"
+                      cursor="pointer"
+                      _hover={{
+                        bg: "grey",
+                        color: "white",
+                      }}
+                    >
+                      <Link to={`/post/${_id}`}>
+                        <Icon
+                          mr="1"
+                          fontSize="16"
+                          _groupHover={{
+                            color: "white",
+                          }}
+                          as={FiMessageSquare}
+                        />
+                        <button> 76 Commentaries</button>
+                      </Link>
+                    </Flex>
+                  </Flex>
                   <Box flex={1}>
                     <Link to={`/post/${_id}`}>
                       <Heading fontSize="xl">{title}</Heading>
@@ -57,6 +83,7 @@ const CategoryPage: React.FC<CategoryPageProps> = () => {
                       <Text flex={1} mt={4}>
                         {textSnippet}...
                       </Text>
+
                       <Box ml="auto">
                         <EditDeletePostButton _id={_id} creatorId={creatorId} />
                       </Box>

@@ -39,10 +39,21 @@ const Post = () => {
     <Layout>
       <Heading m={4}>{data.post.title}</Heading>
       <Box m={4}>{data.post.text}</Box>
-      <EditDeletePostButton
-        _id={data.post._id}
-        creatorId={data.post.creatorId}
-      />
+      <Box m={4}>
+        <EditDeletePostButton
+          _id={data.post._id}
+          creatorId={data.post.creatorId}
+        />
+      </Box>
+
+      <Box id="commentaries-container" style={{ marginTop: "80vh" }}>
+        Commentaries
+        <p>
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quasi, non?
+          Natus, deserunt soluta fugiat, maxime, quo numquam nesciunt quod quae
+          sapiente sit in iure ipsam magni amet modi obcaecati earum?
+        </p>
+      </Box>
     </Layout>
   );
 };

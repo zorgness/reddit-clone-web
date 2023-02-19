@@ -11,7 +11,7 @@ import {
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { ReactText, useContext } from "react";
+import React, { ReactText } from "react";
 import { IconType } from "react-icons";
 import {
   FiActivity,
