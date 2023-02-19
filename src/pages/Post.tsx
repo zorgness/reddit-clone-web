@@ -46,14 +46,14 @@ const Post = () => {
         />
       </Box>
 
-      <Box id="commentaries-container" style={{ marginTop: "80vh" }}>
+      {/* <Box id="commentaries-container" style={{ marginTop: "80vh" }}>
         Commentaries
         <p>
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quasi, non?
           Natus, deserunt soluta fugiat, maxime, quo numquam nesciunt quod quae
           sapiente sit in iure ipsam magni amet modi obcaecati earum?
         </p>
-      </Box>
+      </Box> */}
     </Layout>
   );
 };

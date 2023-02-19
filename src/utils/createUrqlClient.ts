@@ -73,8 +73,6 @@ const categoryPosts = (): Resolver => {
   return (_parent, fieldArgs, cache, info) => {
     const { parentKey: entityKey, fieldName } = info;
     const allFields = cache.inspectFields(entityKey);
-    console.log(fieldArgs);
-    console.log(typeof info.variables);
     const fieldInfos = allFields.filter(
       (info) => info.arguments?.categoryId === fieldArgs.categoryId
     );

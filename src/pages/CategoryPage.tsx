@@ -60,7 +60,7 @@ const CategoryPage: React.FC<CategoryPageProps> = () => {
                         color: "white",
                       }}
                     >
-                      <Link to={`/post/${_id}`}>
+                      {/* <Link to={`/post/${_id}`}>
                         <Icon
                           mr="1"
                           fontSize="16"
@@ -70,7 +70,7 @@ const CategoryPage: React.FC<CategoryPageProps> = () => {
                           as={FiMessageSquare}
                         />
                         <button> 76 Commentaries</button>
-                      </Link>
+                      </Link> */}
                     </Flex>
                   </Flex>
                   <Box flex={1}>
