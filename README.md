@@ -1,9 +1,6 @@
 
 
-https://www.mini-reddit.fun/
 
-Back end Deploy with Digital Ocean, Dokku with Docker
-Front end on Vercel
 
 reddit-clone-web (front)
 
